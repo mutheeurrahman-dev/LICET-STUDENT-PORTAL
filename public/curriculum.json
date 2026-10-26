@@ -1,0 +1,1700 @@
+{
+  "AIDS": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24101",
+        "name": "Basic Electrical and Electronics Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "CY24101",
+        "name": "Applied Chemistry",
+        "credits": 3.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils / தமிழர ் மரபு",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24112",
+        "name": "Problem Solving using Python",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24121",
+        "name": "Engineering Practices Laboratory – Civil and Mechanical",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      }
+    ],
+    "2": [
+      {
+        "code": "MA24204",
+        "name": "Probability and Statistics",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24201",
+        "name": "C and Elementary Data Structures",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24201",
+        "name": "Physics for Information Science",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24201",
+        "name": "Tamils and Technology/ தமிழரும் ததொழில்நுட்பமும்",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24221",
+        "name": "C and Elementary Data Structures Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24122",
+        "name": "Engineering Practices Laboratory – Electrical and Electronics",
+        "credits": 1.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24123",
+        "name": "Design Thinking",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      },
+      {
+        "code": "MA24301",
+        "name": "Discrete Mathematics",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24301",
+        "name": "Artificial Intelligence",
+        "credits": 3.0
+      },
+      {
+        "code": "AD24302",
+        "name": "Non-Linear Data Structures and Algorithms",
+        "credits": 3.0
+      },
+      {
+        "code": "BS24301",
+        "name": "Environmental Science and Sustainability",
+        "credits": 3.0
+      },
+      {
+        "code": "AD24311",
+        "name": "Database Design and Management",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24312",
+        "name": "Object Oriented Programming in JAVA",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24321",
+        "name": "Artificial Intelligence Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "AD24322",
+        "name": "Non-Linear Data Structures and Algorithms Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "BS24321",
+        "name": "System Discovery and Analysis",
+        "credits": 2.0
+      }
+    ],
+    "4": [
+      {
+        "code": "MA24403",
+        "name": "Transforms and Linear Algebra",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24401",
+        "name": "Machine Learning",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24401",
+        "name": "Operating Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "AD24411",
+        "name": "Data Engineering",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24311",
+        "name": "Digital Principles and Computer Organisation",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24421",
+        "name": "Machine Learning Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "CS24421",
+        "name": "Operating Systems Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "AD24422",
+        "name": "Project Driven Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "AD24501",
+        "name": "Big Data Analytics",
+        "credits": 3.0
+      },
+      {
+        "code": "AD24502",
+        "name": "Neural Networks and Deep Learning",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24501",
+        "name": "Project Management and Operations Management",
+        "credits": 2.0
+      },
+      {
+        "code": "AD24412",
+        "name": "Data Visualization and Story Telling",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24512",
+        "name": "Computer Networks",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24521",
+        "name": "Big Data Analytics Lab",
+        "credits": 1.5
+      },
+      {
+        "code": "AD24522",
+        "name": "Deep Learning Lab",
+        "credits": 1.5
+      },
+      {
+        "code": "BS24502",
+        "name": "Logical Reasoning and Aptitude Training",
+        "credits": 2.0
+      },
+      {
+        "code": "FC24501",
+        "name": "Universal Human Values and Service Learning",
+        "credits": 1.0
+      }
+    ],
+    "6": [
+      {
+        "code": "GE24502",
+        "name": "Entrepreneurship and International Business Market",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24611",
+        "name": "Distributed and Cloud Computing",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24701",
+        "name": "Working to Engineer a Better World",
+        "credits": 2.0
+      },
+      {
+        "code": "AD24711",
+        "name": "Information Security",
+        "credits": 4.0
+      },
+      {
+        "code": "AD24721",
+        "name": "Professional Project – I",
+        "credits": 2.0
+      },
+      {
+        "code": "AD24722",
+        "name": "Internship",
+        "credits": 2.0
+      },
+      {
+        "code": "AD24821",
+        "name": "Professional Project – II",
+        "credits": 10.0
+      }
+    ]
+  },
+  "CSE": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24101",
+        "name": "Basic Electrical and Electronics Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "CY24101",
+        "name": "Applied Chemistry",
+        "credits": 3.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils/ தமிழர ் மரபு",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24112",
+        "name": "Problem Solving using Python",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24121",
+        "name": "Engineering Practices Laboratory – Civil and Mechanical",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      }
+    ],
+    "2": [
+      {
+        "code": "MA24201",
+        "name": "Probability and Queuing Theory",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24201",
+        "name": "Programming in C",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24201",
+        "name": "Physics for Information Science",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24201",
+        "name": "Tamils and Technology / தமிழரும் ததொழில்நுட்பமும்",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24221",
+        "name": "C Programming Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24122",
+        "name": "Engineering Practices Laboratory – Electrical and Electronics",
+        "credits": 1.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24123",
+        "name": "Design Thinking",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      },
+      {
+        "code": "MA24301",
+        "name": "Discrete Mathematics",
+        "credits": 4.0
+      },
+      {
+        "code": "BS24301",
+        "name": "Environmental Science and Sustainability",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24301",
+        "name": "Data Structures",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24302",
+        "name": "Database Management Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24311",
+        "name": "Digital Principles and Computer Organization",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24312",
+        "name": "Object Oriented Programming in JAVA",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24321",
+        "name": "Data Structures Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "CS24322",
+        "name": "Database Management Systems Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24321",
+        "name": "System Discovery and Analysis",
+        "credits": 2.0
+      }
+    ],
+    "4": [
+      {
+        "code": "MA24401",
+        "name": "Algebra and Number Theory",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24401",
+        "name": "Operating Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24402",
+        "name": "Microprocessors and Micro Controllers",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24411",
+        "name": "Design and Analysis of Algorithms",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24412",
+        "name": "Object Oriented Software Engineering",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24413",
+        "name": "Foundations of Data Science",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24421",
+        "name": "Operating Systems Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "CS24422",
+        "name": "Microprocessors and Micro Controllers Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "CS24501",
+        "name": "Theory of Computation",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24501",
+        "name": "Project Management and Operations Management",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24511",
+        "name": "Artificial Intelligence and Machine Learning",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24512",
+        "name": "Computer Networks",
+        "credits": 4.0
+      },
+      {
+        "code": "FC24501",
+        "name": "Universal Human Values and Service Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24502",
+        "name": "Logical Reasoning and Aptitude Training",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      }
+    ],
+    "6": [
+      {
+        "code": "CS24601",
+        "name": "Compiler Design",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24502",
+        "name": "Entrepreneurship and International Business Market",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24611",
+        "name": "Distributed and Cloud Computing",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24612",
+        "name": "Embedded Systems and IoT",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24613",
+        "name": "Internet Programming",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24701",
+        "name": "Working to Engineer a Better World",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24711",
+        "name": "Cryptography and Cyber Security",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24721",
+        "name": "Professional Project - I",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24722",
+        "name": "Internship",
+        "credits": 2.0
+      }
+    ],
+    "8": [
+      {
+        "code": "CS24821",
+        "name": "Professional Project – II",
+        "credits": 10.0
+      }
+    ]
+  },
+  "EEE": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24102",
+        "name": "Basic Civil and Mechanical Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24101",
+        "name": "Physics for Electrical Engineers",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24122",
+        "name": "Engineering Practices Laboratory – Electrical and Electronics",
+        "credits": 1.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      }
+    ],
+    "2": [
+      {
+        "code": "EE24201",
+        "name": "Circuit Theory",
+        "credits": 4.0
+      },
+      {
+        "code": "MA24202",
+        "name": "Laplace Transforms and Complex Variables",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24201",
+        "name": "Programming in C",
+        "credits": 3.0
+      },
+      {
+        "code": "CY24201",
+        "name": "Chemistry for Electronic Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24201",
+        "name": "Tamils and Technology",
+        "credits": 1.0
+      },
+      {
+        "code": "CS24221",
+        "name": "C Programming Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "EE24221",
+        "name": "Circuit Theory Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24121",
+        "name": "Engineering Practices Laboratory – Civil and Mechanical",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "MA24302",
+        "name": "Transforms and Statistics",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24302",
+        "name": "Electromagnetic Theory",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24303",
+        "name": "Analog Electronics",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24304",
+        "name": "DC Machines and Transformers",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24311",
+        "name": "Digital Logic Circuits",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24312",
+        "name": "OOP using C++",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24321",
+        "name": "DC Machines and Transformers Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "EE24322",
+        "name": "Analog Electronics Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      }
+    ],
+    "4": [
+      {
+        "code": "EE24401",
+        "name": "Control Systems",
+        "credits": 4.0
+      },
+      {
+        "code": "BS24301",
+        "name": "Environmental Science and Sustainability",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24402",
+        "name": "Synchronous and Induction Machines",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24403",
+        "name": "Measurements and Instrumentation",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24411",
+        "name": "Transmission and Distribution",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24412",
+        "name": "Python Programming and Elementary Data Structures",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24421",
+        "name": "Synchronous and Induction Machines Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "EE24422",
+        "name": "Control System and Instrumentation Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "BS24321",
+        "name": "System Discovery and Analysis",
+        "credits": 2.0
+      }
+    ],
+    "5": [
+      {
+        "code": "EE24501",
+        "name": "Power Electronics",
+        "credits": 3.0
+      },
+      {
+        "code": "EE24502",
+        "name": "Microprocessor and Microcontroller",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24502",
+        "name": "Entrepreneurship and International Business Market",
+        "credits": 2.0
+      },
+      {
+        "code": "EE24511",
+        "name": "Power System Analysis",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24521",
+        "name": "Microprocessor and Microcontroller Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "EE24522",
+        "name": "Power Electronics Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "FC24501",
+        "name": "Universal Human Values and Service Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24502",
+        "name": "Logical Reasoning and Aptitude Training",
+        "credits": 2.0
+      }
+    ],
+    "6": [
+      {
+        "code": "GE24501",
+        "name": "Project Management and Operation Management",
+        "credits": 2.0
+      },
+      {
+        "code": "EE24612",
+        "name": "Power System Operation and Control",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24613",
+        "name": "Protection and Switchgear",
+        "credits": 4.0
+      },
+      {
+        "code": "EE24614",
+        "name": "Energy Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24701",
+        "name": "Working to Engineer a Better World",
+        "credits": 2.0
+      },
+      {
+        "code": "EE24722",
+        "name": "Professional Project – I",
+        "credits": 2.0
+      },
+      {
+        "code": "EE24723",
+        "name": "Internship",
+        "credits": 2.0
+      }
+    ],
+    "8": [
+      {
+        "code": "EE24722",
+        "name": "Professional Project – II",
+        "credits": 10.0
+      }
+    ]
+  },
+  "ECE": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24102",
+        "name": "Engineering Physics",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils / தமிழர ்மரபு",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24123",
+        "name": "Design Thinking",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      }
+    ],
+    "2": [
+      {
+        "code": "MA24202",
+        "name": "Laplace Transforms and Complex Variables",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24201",
+        "name": "Chemistry for Electronic Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24201",
+        "name": "C Programming and Data Structures",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24211",
+        "name": "Circuit Analysis",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "EC24221",
+        "name": "C Programming and Data Structures Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "EC24301",
+        "name": "Signals and Systems",
+        "credits": 4.0
+      },
+      {
+        "code": "MA24303",
+        "name": "Probability and Random Processes",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24302",
+        "name": "Electronic Circuits",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24303",
+        "name": "Theory and Design of Control Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24311",
+        "name": "Digital System Design",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24112",
+        "name": "Problem Solving using Python",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24321",
+        "name": "Devices and Circuits Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24321",
+        "name": "System Discovery and Analysis",
+        "credits": 2.0
+      }
+    ],
+    "4": [
+      {
+        "code": "BS24301",
+        "name": "Environmental Science and Sustainability",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24401",
+        "name": "Electromagnetic Fields and Waves",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24411",
+        "name": "Communication Theory and Applications",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24413",
+        "name": "Linear Integrated Circuits",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24411",
+        "name": "Object-Oriented Programming",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24422",
+        "name": "Project Driven Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "EC24501",
+        "name": "Digital Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24502",
+        "name": "Transmission Lines and RF Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24511",
+        "name": "VLSI Design",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24512",
+        "name": "Networks and Security",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24513",
+        "name": "Computer Architecture and Organization",
+        "credits": 3.0
+      },
+      {
+        "code": "EC24521",
+        "name": "Communication Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "EC24522",
+        "name": "Mini Project",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24501",
+        "name": "Universal Human Values and Service Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24502",
+        "name": "Logical Reasoning and Aptitude Training",
+        "credits": 2.0
+      }
+    ],
+    "6": [
+      {
+        "code": "EC24601",
+        "name": "Wireless Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24501",
+        "name": "Project Management and Operations",
+        "credits": 2.0
+      },
+      {
+        "code": "EC24611",
+        "name": "Antennas and Microwave Engineering",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24701",
+        "name": "Working to Engineer a Better World",
+        "credits": 2.0
+      },
+      {
+        "code": "EC24711",
+        "name": "Embedded Real Time Systems with ARM",
+        "credits": 4.0
+      },
+      {
+        "code": "EC24721",
+        "name": "Professional Project – I",
+        "credits": 2.0
+      },
+      {
+        "code": "EC24722",
+        "name": "Internship",
+        "credits": 2.0
+      }
+    ],
+    "8": [
+      {
+        "code": "EC24821",
+        "name": "Professional Project – II",
+        "credits": 10.0
+      }
+    ]
+  },
+  "IT": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24101",
+        "name": "Basic Electrical and Electronics Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "CY24101",
+        "name": "Applied Chemistry",
+        "credits": 3.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils/ தமிழர் மரபு",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24112",
+        "name": "Problem Solving using Python",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24121",
+        "name": "Engineering Practices Laboratory – Civil and Mechanical",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      }
+    ],
+    "2": [
+      {
+        "code": "MA24204",
+        "name": "Probability and Statistics",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24201",
+        "name": "Programming in C",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24101",
+        "name": "Physics for Information Science",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24201",
+        "name": "Tamils and Technology/ தமிழரும் ததொழில்நுட்பமும்",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24221",
+        "name": "C Programming Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24122",
+        "name": "Engineering Practices Laboratory– Electrical and Electronics",
+        "credits": 1.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24123",
+        "name": "Design Thinking",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      },
+      {
+        "code": "MA24301",
+        "name": "Discrete Mathematics",
+        "credits": 4.0
+      },
+      {
+        "code": "BS24301",
+        "name": "Environmental Science and Sustainability",
+        "credits": 3.0
+      },
+      {
+        "code": "IT24301",
+        "name": "Data Structures and Algorithms",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24311",
+        "name": "Digital Principles and Computer Organization",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24312",
+        "name": "Object Oriented Programming in JAVA",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24413",
+        "name": "Foundation of Data Science",
+        "credits": 3.0
+      },
+      {
+        "code": "IT24321",
+        "name": "Data Structures and Algorithms Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24321",
+        "name": "System Discovery and Analysis",
+        "credits": 2.0
+      }
+    ],
+    "4": [
+      {
+        "code": "MA24401",
+        "name": "Algebra and Number Theory",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24302",
+        "name": "Database Management Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "CS24401",
+        "name": "Operating Systems",
+        "credits": 3.0
+      },
+      {
+        "code": "IT24402",
+        "name": "Computer Architecture",
+        "credits": 3.0
+      },
+      {
+        "code": "IT24411",
+        "name": "Web Essentials",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24322",
+        "name": "Database Management Systems Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "CS24421",
+        "name": "Operating Systems Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "IT24423",
+        "name": "Project Driven Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "IT24501",
+        "name": "Computer Networks",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24501",
+        "name": "Project Management and Operations Management",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24412",
+        "name": "Object Oriented Software Engineering",
+        "credits": 4.0
+      },
+      {
+        "code": "CS24511",
+        "name": "Artificial Intelligence and Machine Learning",
+        "credits": 4.0
+      },
+      {
+        "code": "IT24521",
+        "name": "Networks Lab",
+        "credits": 2.0
+      },
+      {
+        "code": "FC24501",
+        "name": "Universal Human Values and Service Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "BS24502",
+        "name": "Logical Reasoning and Aptitude Training",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      }
+    ],
+    "6": [
+      {
+        "code": "IT24601",
+        "name": "Full Stack Web Development",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24502",
+        "name": "Entrepreneurship and International Business Market",
+        "credits": 2.0
+      },
+      {
+        "code": "CS24612",
+        "name": "Embedded Systems and IoT",
+        "credits": 4.0
+      },
+      {
+        "code": "IT24621",
+        "name": "Full Stack Web Development Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 2.0
+      },
+      {
+        "code": "IT24701",
+        "name": "Cryptography and Network Security",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24701",
+        "name": "Working to Engineer a Better World",
+        "credits": 2.0
+      },
+      {
+        "code": "IT24721",
+        "name": "Security Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "IT24722",
+        "name": "Professional Project - I",
+        "credits": 2.0
+      },
+      {
+        "code": "IT24723",
+        "name": "Internship",
+        "credits": 2.0
+      }
+    ],
+    "8": [
+      {
+        "code": "IT24821",
+        "name": "Professional Project - II",
+        "credits": 10.0
+      }
+    ]
+  },
+  "MECH": {
+    "1": [
+      {
+        "code": "MA24101",
+        "name": "Calculus for Engineers",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24101",
+        "name": "Basic Electrical and Electronics Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "HS24101",
+        "name": "English for Professional Communication",
+        "credits": 3.0
+      },
+      {
+        "code": "PH24102",
+        "name": "Engineering Physics",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24101",
+        "name": "Heritage of Tamils/ தமிழர் மரபு",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24111",
+        "name": "Engineering Graphics",
+        "credits": 4.0
+      },
+      {
+        "code": "GE24122",
+        "name": "Engineering Practices Laboratory – Electrical and Electronics",
+        "credits": 1.0
+      },
+      {
+        "code": "PH24121",
+        "name": "Physics Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24123",
+        "name": "Design Thinking",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24102",
+        "name": "Cultural Identities and Globalization",
+        "credits": 2.0
+      }
+    ],
+    "2": [
+      {
+        "code": "MA24203",
+        "name": "Applied Mathematics and Statistics",
+        "credits": 4.0
+      },
+      {
+        "code": "ME24201",
+        "name": "Engineering Mechanics",
+        "credits": 4.0
+      },
+      {
+        "code": "CY24202",
+        "name": "Engineering Chemistry",
+        "credits": 3.0
+      },
+      {
+        "code": "GE24201",
+        "name": "Tamils and Technology / தமிழரும் ததொழில்நுட்பமும்",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24112",
+        "name": "Problem Solving using Python",
+        "credits": 4.0
+      },
+      {
+        "code": "BE24221",
+        "name": "Basic Electrical and Electronics Engineering Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "CY24121",
+        "name": "Engineering Chemistry Laboratory",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24121",
+        "name": "Engineering Practices Laboratory – Civil and Mechanical",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24101",
+        "name": "Life Skills",
+        "credits": 1.0
+      }
+    ],
+    "3": [
+      {
+        "code": "MA24304",
+        "name": "Transforms and Partial Differential Equations",
+        "credits": 4.0
+      },
+      {
+        "code": "ME24301",
+        "name": "Fluid Mechanics and Machinery",
+        "credits": 4.0
+      },
+      {
+        "code": "ME24302",
+        "name": "Engineering Thermodynamics",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24303",
+        "name": "Manufacturing Technology-I",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24304",
+        "name": "Engineering Materials and Metallurgy",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24321",
+        "name": "Manufacturing Technology Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "ME24322",
+        "name": "Fluid Mechanics and Machinery Laboratory",
+        "credits": 1.5
+      },
+      {
+        "code": "HS24321",
+        "name": "Communication Skills Building Laboratory",
+        "credits": 1.0
+      }
+    ],
+    "4": [
+      {
+        "code": "MA24402",
+        "name": "Numerical Methods",
+        "credits": 4.0
+      },
+      {
+        "code": "ME24401",
+        "name": "Strength of Materials",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24402",
+        "name": "Kinematics of Machinery",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24404",
+        "name": "Thermal Engineering",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24403",
+        "name": "Manufacturing Technology-II",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24423",
+        "name": "Project Driven Learning",
+        "credits": 1.0
+      },
+      {
+        "code": "FC24301",
+        "name": "Soft Skills",
+        "credits": 1.0
+      }
+    ],
+    "5": [
+      {
+        "code": "ME24501",
+        "name": "Design of Machine Elements",
+        "credits": 4.0
+      }
+    ],
+    "6": [
+      {
+        "code": "ME24602",
+        "name": "Heat and Mass Transfer",
+        "credits": 4.0
+      },
+      {
+        "code": "ME24621",
+        "name": "Surrogate Modelling",
+        "credits": 2.0
+      },
+      {
+        "code": "GE24621",
+        "name": "Interdisciplinary Project",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24622",
+        "name": "Problem Solving Techniques",
+        "credits": 1.0
+      },
+      {
+        "code": "GE24503",
+        "name": "Financial Literacy",
+        "credits": 2.0
+      }
+    ],
+    "7": [
+      {
+        "code": "ME24701",
+        "name": "Mechatronics and IoT",
+        "credits": 3.0
+      },
+      {
+        "code": "ME24721",
+        "name": "Mechatronics & IoT Laboratory",
+        "credits": 2.0
+      },
+      {
+        "code": "ME24722",
+        "name": "Professional Project - I",
+        "credits": 2.0
+      },
+      {
+        "code": "ME24723",
+        "name": "Internship",
+        "credits": 2.0
+      }
+    ],
+    "8": [
+      {
+        "code": "ME24821",
+        "name": "Professional Project - II",
+        "credits": 10.0
+      }
+    ]
+  }
+}

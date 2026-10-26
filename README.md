@@ -1,12 +1,64 @@
 # LICET Student Portal
 
-A full-stack student portal for Loyola-ICAM College of Engineering and Technology (LICET), Chennai.
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+
+A comprehensive full-stack academic and student records portal for Loyola-ICAM College of Engineering and Technology (LICET), Chennai, supporting multi-role access control for Students, Faculty, and Administrators.
+
+```mermaid
+flowchart TD
+    subgraph Clients["User Portals"]
+        Student["Student Portal<br/>(Results, Attendance, CGPA, Hall Ticket)"]
+        Faculty["Faculty Portal<br/>(Class Marks, Attendance, SEA)"]
+        Admin["Admin Dashboard<br/>(Bulk Excel Uploads, User Management)"]
+    end
+
+    subgraph Server["Express.js Server Layer"]
+        Router["Express Router & Session Guard"]
+        AuthRoute["/api/auth (Login / Logout / Role Check)"]
+        StudentRoute["/api/student"]
+        FacultyRoute["/api/faculty"]
+        AdminRoute["/api/admin"]
+        AttendanceRoute["/api/attendance"]
+        CGPARoute["/api/cgpa"]
+    end
+
+    subgraph Database["MongoDB Data Layer"]
+        UserCol[("Users & Credentials")]
+        StudentCol[("Student Profiles")]
+        ExamCol[("Exam Data & Results")]
+        AttendanceCol[("Attendance Records")]
+        NoticeCol[("Notice Board")]
+    end
+
+    Student --> Router
+    Faculty --> Router
+    Admin --> Router
+
+    Router --> AuthRoute
+    Router --> StudentRoute
+    Router --> FacultyRoute
+    Router --> AdminRoute
+    Router --> AttendanceRoute
+    Router --> CGPARoute
+
+    AuthRoute --> UserCol
+    StudentRoute --> StudentCol
+    StudentRoute --> ExamCol
+    StudentRoute --> NoticeCol
+    FacultyRoute --> AttendanceCol
+    FacultyRoute --> ExamCol
+    AdminRoute --> StudentCol
+    AdminRoute --> UserCol
+```
 
 ## Tech Stack
 - **Backend**: Node.js + Express.js
-- **Database**: MongoDB (Mongoose)
-- **Sessions**: express-session + connect-mongo
-- **Frontend**: Plain HTML/CSS/JS
+- **Database**: MongoDB (Mongoose ODM)
+- **Sessions & Security**: `express-session`, `connect-mongo`, bcrypt password hashing
+- **Frontend**: Responsive HTML5, Vanilla JavaScript, CSS3, Bootstrap 5
 
 ## Quick Start
 

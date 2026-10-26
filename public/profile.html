@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET - My Profile</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:10px;}
+    .header-right{text-align:right;}
+    .student-name{font-size:13px;font-weight:bold;color:white;}
+    .student-info{font-size:10px;color:#a8d8f0;margin-top:2px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;}
+    #dolphinnav{background:#1E73BE;height:33px;display:flex;align-items:center;}
+    #dolphinnav a{color:white;text-decoration:none;padding:0 12px;height:33px;line-height:33px;font-size:11px;text-transform:uppercase;display:inline-block;}
+    #dolphinnav a:hover,#dolphinnav a.active{background:#fcfcfc;color:#1E73BE;font-weight:bold;}
+    .page-wrapper{max-width:900px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .page-title{background:white;border-left:5px solid #1E73BE;padding:10px 16px;margin-bottom:16px;font-size:16px;font-weight:bold;color:#143D55;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    a.back-btn{display:inline-block;background:#EBF3FC;color:#030a66;border:1px solid #A8BCD7;padding:6px 16px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:bold;margin-bottom:16px;}
+    a.back-btn:hover{background:#1E73BE;color:white;}
+    .profile-layout{display:grid;grid-template-columns:220px 1fr;gap:16px;}
+    .profile-card{background:white;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.1);padding:20px;text-align:center;}
+    .profile-photo{width:120px;height:140px;border-radius:6px;border:3px solid #1E73BE;object-fit:cover;margin-bottom:12px;}
+    .profile-name{font-size:15px;font-weight:bold;color:#143D55;margin-bottom:4px;}
+    .profile-dept{font-size:11px;color:#808080;}
+    .profile-badge{display:inline-block;background:#d4edda;color:#155724;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:bold;margin-top:8px;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:16px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;}
+    .panel-body{padding:16px;}
+    .detail-table{width:100%;border-collapse:collapse;}
+    .detail-table tr td{padding:8px 10px;border-bottom:1px solid #f0f0f0;font-size:12px;}
+    .detail-table tr:last-child td{border-bottom:none;}
+    .detail-table td:first-child{color:#808080;font-weight:bold;width:160px;}
+    .detail-table td:last-child{color:#143D55;font-weight:bold;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+    @media(max-width:600px){.profile-layout{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Student Portal — LICET Chennai</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="student-name" id="sname">Loading...</div>
+    <div class="student-info" id="sinfo"></div>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+<div id="dolphinnav">
+  <a href="/home">🏠 Home</a>
+  <a href="/cgpa-calculator">📊 CGPA Calculator</a>
+  <a href="/profile" class="active">👤 Profile</a>
+  <a href="#" onclick="doLogout()">🔴 Logout</a>
+</div>
+<div class="page-wrapper">
+  <a class="back-btn" href="/home">← Back to Home</a>
+  <div class="page-title">👤 My Profile</div>
+  <div class="profile-layout">
+    <div>
+      <div class="profile-card">
+        <img class="profile-photo" src="./nophotomale.jpg" alt="Photo">
+        <div class="profile-name" id="p-name">—</div>
+        <div class="profile-dept" id="p-dept">—</div>
+        <div class="profile-badge">Active Student</div>
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <div class="panel-header">Personal Details</div>
+        <div class="panel-body">
+          <table class="detail-table">
+            <tr><td>Register Number</td><td id="p-regno">—</td></tr>
+            <tr><td>Full Name</td><td id="p-fullname">—</td></tr>
+            <tr><td>Department</td><td id="p-department">—</td></tr>
+            <tr><td>Batch</td><td id="p-batch">—</td></tr>
+            <tr><td>Current Semester</td><td id="p-semester">—</td></tr>
+            <tr><td>Email</td><td id="p-email">Not provided</td></tr>
+            <tr><td>Phone</td><td id="p-phone">Not provided</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">Academic Summary</div>
+        <div class="panel-body">
+          <table class="detail-table">
+            <tr><td>College</td><td>Loyola-ICAM College of Engg & Tech</td></tr>
+            <tr><td>University</td><td>Anna University, Chennai</td></tr>
+            <tr><td>Programme</td><td id="p-prog">B.E. / B.Tech</td></tr>
+            <tr><td>Current CGPA</td><td id="p-cgpa">—</td></tr>
+            <tr><td>Status</td><td><span style="color:#155724;font-weight:bold;">✅ Regular Student</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+<script>
+  window.onload = async () => {
+    const r = await fetch('/api/auth/me');
+    const d = await r.json();
+    if (!d.success) { window.location.href = '/login'; return; }
+    const s = d.student;
+    document.getElementById('sname').textContent       = s.name;
+    document.getElementById('sinfo').textContent       = s.department + ' | ' + s.batch + ' | Sem ' + s.semester;
+    document.getElementById('p-name').textContent      = s.name;
+    document.getElementById('p-fullname').textContent  = s.name;
+    document.getElementById('p-dept').textContent      = s.department + ' | Batch ' + s.batch;
+    document.getElementById('p-regno').textContent     = s.register_no;
+    document.getElementById('p-department').textContent= s.department;
+    document.getElementById('p-batch').textContent     = s.batch;
+    document.getElementById('p-semester').textContent  = 'Semester ' + s.semester;
+    document.getElementById('p-prog').textContent      = s.department === 'IT' ? 'B.Tech Information Technology' : 'B.E. ' + s.department;
+
+    // Load full profile (email, phone)
+    try {
+      const pr = await fetch('/api/student/profile');
+      const pd = await pr.json();
+      if (pd.success && pd.student) {
+        document.getElementById('p-email').textContent = pd.student.email || 'Not provided';
+        document.getElementById('p-phone').textContent = pd.student.phone || 'Not provided';
+      }
+    } catch(e) {}
+
+    try {
+      const cr = await fetch('/api/cgpa/my');
+      const cd = await cr.json();
+      document.getElementById('p-cgpa').textContent = cd.cgpa > 0 ? cd.cgpa : 'Not calculated yet';
+    } catch(e) {}
+  };
+  function doLogout() {
+    if (confirm('Logout?')) { fetch('/api/auth/logout').then(() => window.location.href = '/login'); }
+  }
+</script>
+</body>
+</html>

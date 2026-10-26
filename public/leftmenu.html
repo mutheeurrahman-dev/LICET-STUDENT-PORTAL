@@ -1,0 +1,45 @@
+
+<!-- saved from url=(0049)https://coe.licet.ac.in/studentlogin/leftmenu.php -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="description" content="">
+		<link rel="stylesheet" type="text/css" media="screen,projection,print" href="./style.css">
+		<script src="./jquery-1.6.2.js.download"></script>
+		<script>
+			function setModuleActive(idElement){
+				/* Total Tabs above the input field (in this case there are 3 tabs: web, images, videos) */
+				tab = document.getElementById('mod'+idElement);				
+				totNodes = document.getElementById('left_menu').childNodes.length;
+				
+				for(i=1; i<=totNodes; i++){
+					if(i==idElement){
+						/*set class for active tab */
+						tab.setAttribute("className","current");							
+						/*set value for the hidden input element */
+					} else {
+						/*unset class for non active tabs */
+						if (document.getElementById('mod'+i)){
+							document.getElementById('mod'+i).setAttribute("className","");
+						}
+					}
+				}
+			}
+			
+			$(function() {
+
+				$(".menu3 li").hover(function() {
+					$(this).addClass("hover");
+				}, function() {
+					$(this).removeClass("hover");
+				});
+				
+				$(".menu3 li").click(function() {
+					$(".menu3 li").removeClass("current");		
+					$(this).addClass("current");
+				});
+
+			});
+		</script>
+	</head>
+	<body style="overflow-x: hidden;" onkeyup="keyPressCalc(event);">
+			
+</body></html>

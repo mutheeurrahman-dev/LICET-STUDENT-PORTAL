@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET Student Portal — Login</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:13px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:12px 24px;display:flex;align-items:center;gap:14px;}
+    .header img{height:54px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);}
+    .header-text h1{color:white;font-size:15px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:11px;margin-top:2px;}
+    .main{flex:1;display:flex;align-items:center;justify-content:center;padding:30px 16px;}
+    .card{background:white;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.13);width:100%;max-width:400px;overflow:hidden;}
+    .card-top{background:linear-gradient(135deg,#143D55,#1E73BE);padding:28px 28px 20px;text-align:center;}
+    .card-top h2{color:white;font-size:18px;font-weight:bold;margin-bottom:4px;}
+    .card-top p{color:#a8d8f0;font-size:12px;}
+    .card-body{padding:28px;}
+    .form-group{margin-bottom:16px;}
+    .form-group label{display:block;font-weight:bold;color:#143D55;margin-bottom:5px;font-size:12px;}
+    .form-group input{width:100%;border:1px solid #C8D8E4;border-radius:5px;padding:9px 12px;font-size:13px;outline:none;transition:border 0.2s;}
+    .form-group input:focus{border-color:#1E73BE;box-shadow:0 0 0 2px rgba(30,115,190,0.15);}
+    .btn-login{width:100%;background:#1E73BE;color:white;border:none;padding:11px;border-radius:5px;font-size:14px;font-weight:bold;cursor:pointer;margin-top:4px;transition:background 0.2s;}
+    .btn-login:hover{background:#155a9c;}
+    .btn-login:disabled{background:#8ab5d9;cursor:not-allowed;}
+    .error-msg{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;border-radius:4px;padding:9px 12px;font-size:12px;margin-bottom:14px;display:none;}
+    .info{text-align:center;font-size:11px;color:#888;margin-top:16px;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;}
+  </style>
+</head>
+<body>
+<div class="header">
+  <img src="./college.jpg" alt="LICET">
+  <div class="header-text">
+    <h1>Loyola-ICAM College of Engineering and Technology</h1>
+    <p>Student Portal — LICET Chennai | Anna University Affiliated</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="card">
+    <div class="card-top">
+      <h2>🎓 LICET Student Portal</h2>
+      <p>Sign in with your Register Number &amp; Password</p>
+    </div>
+    <div class="card-body">
+      <div class="error-msg" id="err-msg"></div>
+      <div class="form-group">
+        <label>Register Number / Admin Username</label>
+        <input type="text" id="regno" placeholder="e.g. 311124201001" autocomplete="username" autofocus>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+      <button class="btn-login" id="login-btn" onclick="doLogin()">🔐 Login</button>
+      <div class="info">Contact your administrator if you cannot log in.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+
+<script>
+  // If already logged in, redirect
+  fetch('/api/auth/me').then(r=>r.json()).then(d=>{
+    if(d.success){
+      if(d.role==='admin') window.location.href='/admin';
+      else if(d.role==='faculty') window.location.href='/faculty';
+      else window.location.href='/home';
+    }
+  }).catch(()=>{});
+
+  async function doLogin() {
+    const regno    = document.getElementById('regno').value.trim();
+    const password = document.getElementById('password').value;
+    const errDiv   = document.getElementById('err-msg');
+    const btn      = document.getElementById('login-btn');
+
+    if (!regno || !password) {
+      showError('Please enter both Register Number and Password.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Signing in...';
+    errDiv.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ register_no: regno, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = data.redirect;
+      } else {
+        showError(data.message || 'Invalid credentials. Please try again.');
+        btn.disabled = false;
+        btn.textContent = '🔐 Login';
+      }
+    } catch(e) {
+      showError('Server error. Please try again.');
+      btn.disabled = false;
+      btn.textContent = '🔐 Login';
+    }
+  }
+
+  function showError(msg) {
+    const e = document.getElementById('err-msg');
+    e.textContent = msg;
+    e.style.display = 'block';
+  }
+
+  // Allow Enter key to submit
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+</script>
+</body>
+</html>

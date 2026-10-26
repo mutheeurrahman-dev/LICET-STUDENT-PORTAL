@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET - Exam Result</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:10px;}
+    .header-right{text-align:right;}
+    .student-name{font-size:13px;font-weight:bold;color:white;}
+    .student-info{font-size:10px;color:#a8d8f0;margin-top:2px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;}
+    #dolphinnav{background:#1E73BE;height:33px;display:flex;align-items:center;}
+    #dolphinnav a{color:white;text-decoration:none;padding:0 12px;height:33px;line-height:33px;font-size:11px;text-transform:uppercase;display:inline-block;}
+    #dolphinnav a:hover{background:#fcfcfc;color:#1E73BE;font-weight:bold;}
+    .page-wrapper{max-width:1000px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .page-title{background:white;border-left:5px solid #1E73BE;padding:10px 16px;margin-bottom:16px;font-size:16px;font-weight:bold;color:#143D55;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    a.back-btn{display:inline-block;background:#EBF3FC;color:#030a66;border:1px solid #A8BCD7;padding:6px 16px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:bold;margin-bottom:16px;}
+    a.back-btn:hover{background:#1E73BE;color:white;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:20px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
+    .panel-body{padding:16px;}
+    .summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+    .summary-card{background:white;border-radius:6px;padding:14px;text-align:center;border-top:4px solid #1E73BE;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    .summary-card.green{border-top-color:#28a745;}
+    .summary-card.orange{border-top-color:#fd7e14;}
+    .summary-card.red{border-top-color:#dc3545;}
+    .summary-card .val{font-size:26px;font-weight:bold;color:#143D55;}
+    .summary-card .lbl{font-size:10px;color:#808080;margin-top:4px;text-transform:uppercase;}
+    .sem-select{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+    .sem-btn{padding:5px 14px;border:1px solid #A8BCD7;background:#EBF3FC;color:#030a66;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .sem-btn.active,.sem-btn:hover{background:#1E73BE;color:white;border-color:#1E73BE;}
+    .grid-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .grid-table th{background:#1E73BE;color:white;padding:8px 12px;text-align:left;font-weight:normal;}
+    .grid-table td{border-bottom:1px solid #D8D8D8;padding:8px 12px;color:#333;}
+    .grid-table tr:hover td{background:#f0f7ff;}
+    .grade-pill{display:inline-block;padding:3px 12px;border-radius:12px;font-weight:bold;font-size:12px;}
+    .g-O{background:#d4edda;color:#155724;}
+    .g-Ap{background:#cce5ff;color:#004085;}
+    .g-A{background:#d1ecf1;color:#0c5460;}
+    .g-Bp{background:#e2e3e5;color:#383d41;}
+    .g-B{background:#fff3cd;color:#856404;}
+    .g-C{background:#ffeeba;color:#856404;}
+    .g-RA{background:#f8d7da;color:#721c24;}
+    .g-U{background:#f8d7da;color:#721c24;}
+    .result-bar{background:linear-gradient(135deg,#143D55,#1E73BE);color:white;padding:12px 20px;border-radius:5px;display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
+    .result-bar .sgpa-val{font-size:28px;font-weight:bold;}
+    .result-class{background:rgba(255,255,255,0.2);padding:6px 14px;border-radius:20px;font-weight:bold;}
+    .btn-print{background:#1E73BE;color:white;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .empty-state{text-align:center;color:#888;padding:40px;font-size:14px;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+    @media print{.header,#dolphinnav,.back-btn,.page-title,.footer,.sem-select{display:none!important;}body{background:white;}.page-wrapper{margin:0;padding:0;}}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Student Portal — LICET Chennai</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="student-name" id="sname">Loading...</div>
+    <div class="student-info" id="sinfo"></div>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+<div id="dolphinnav">
+  <a href="/home">🏠 Home</a>
+  <a href="/cgpa-calculator">📊 CGPA Calculator</a>
+  <a href="/profile">👤 Profile</a>
+  <a href="#" onclick="doLogout()">🔴 Logout</a>
+</div>
+<div class="page-wrapper">
+  <a class="back-btn" href="/home">← Back to Home</a>
+  <div class="page-title">📊 Exam Results</div>
+
+  <div class="summary-row">
+    <div class="summary-card"><div class="val" id="cgpa-val">—</div><div class="lbl">Overall CGPA</div></div>
+    <div class="summary-card green"><div class="val" id="sem-count">—</div><div class="lbl">Semesters Cleared</div></div>
+    <div class="summary-card orange"><div class="val" id="total-credits">—</div><div class="lbl">Total Credits</div></div>
+    <div class="summary-card" id="arrear-card"><div class="val" id="arrear-val">—</div><div class="lbl">Arrear Status</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      Select Semester
+      <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+    </div>
+    <div class="panel-body">
+      <div class="sem-select" id="sem-tabs"></div>
+      <div id="sem-content"><div class="empty-state">Loading results...</div></div>
+    </div>
+  </div>
+</div>
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+<script>
+  let allResults = [];
+
+  function gradeClass(g){ return 'g-' + (g||'').replace('+','p'); }
+
+  function showSem(el, idx) {
+    document.querySelectorAll('.sem-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    const d = allResults[idx];
+    if (!d) { document.getElementById('sem-content').innerHTML = '<div class="empty-state">No data for this semester.</div>'; return; }
+    const rows = d.subjects.map((s,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${s.subject_code||''}</td>
+        <td>${s.subject_name||''}</td>
+        <td style="text-align:center;">${s.credits||0}</td>
+        <td style="text-align:center;">${s.internal||0}</td>
+        <td style="text-align:center;">${s.external||0}</td>
+        <td style="text-align:center;">${s.total||0}</td>
+        <td style="text-align:center;"><span class="grade-pill ${gradeClass(s.grade)}">${s.grade||'—'}</span></td>
+        <td style="text-align:center;">${s.grade_points||0}</td>
+        <td style="text-align:center;">${(s.grade_points||0)*(s.credits||0)}</td>
+      </tr>`).join('');
+    const totalCr = d.subjects.reduce((a,s) => a+(s.credits||0), 0);
+    const cls = d.sgpa >= 9 ? '🏆 Outstanding' : d.sgpa >= 8 ? '⭐ Distinction' : d.sgpa >= 6 ? '✅ First Class' : '📋 Pass';
+    const resultColor = d.result === 'Arrear' ? '#dc3545' : '#28a745';
+    document.getElementById('sem-content').innerHTML = `
+      <table class="grid-table">
+        <thead><tr>
+          <th>#</th><th>Code</th><th>Subject Name</th>
+          <th style="text-align:center;">Credits</th>
+          <th style="text-align:center;">Internal</th>
+          <th style="text-align:center;">External</th>
+          <th style="text-align:center;">Total</th>
+          <th style="text-align:center;">Grade</th>
+          <th style="text-align:center;">Grade Pts</th>
+          <th style="text-align:center;">Weighted</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="result-bar">
+        <div><div style="font-size:11px;opacity:0.8;">SGPA — Semester ${d.semester}</div><div class="sgpa-val">${d.sgpa}</div></div>
+        <div><div style="font-size:11px;opacity:0.8;">Total Credits</div><div style="font-size:22px;font-weight:bold;">${totalCr}</div></div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="result-class">${cls}</span>
+          <span style="background:${resultColor};padding:6px 14px;border-radius:20px;font-weight:bold;">${d.result||'Pass'}</span>
+        </div>
+      </div>`;
+  }
+
+  window.onload = async () => {
+    // Auth check
+    const r = await fetch('/api/auth/me');
+    const d = await r.json();
+    if (!d.success) { window.location.href = '/login'; return; }
+    document.getElementById('sname').textContent = d.student.name;
+    document.getElementById('sinfo').textContent = d.student.department + ' | ' + d.student.batch + ' | Sem ' + d.student.semester;
+
+    // Load real results from DB
+    const rr = await fetch('/api/student/results');
+    const rd = await rr.json();
+    allResults = rd.results || [];
+
+    if (allResults.length === 0) {
+      document.getElementById('sem-content').innerHTML = '<div class="empty-state">📭 No results published yet. Please check back later.</div>';
+      document.getElementById('cgpa-val').textContent = '—';
+      document.getElementById('sem-count').textContent = '0';
+      document.getElementById('total-credits').textContent = '0';
+      document.getElementById('arrear-val').textContent = '—';
+      return;
+    }
+
+    // Build semester tabs
+    const tabs = document.getElementById('sem-tabs');
+    allResults.forEach((sem, idx) => {
+      const btn = document.createElement('div');
+      btn.className = 'sem-btn' + (idx===0?' active':'');
+      btn.textContent = 'Semester ' + sem.semester;
+      btn.onclick = function(){ showSem(this, idx); };
+      tabs.appendChild(btn);
+    });
+
+    // Summary stats
+    const cleared = allResults.filter(s => s.result !== 'Arrear').length;
+    const totalCredits = allResults.reduce((a,s) => a + s.subjects.reduce((b,sub) => b+(sub.credits||0), 0), 0);
+    const hasArrear = allResults.some(s => s.result === 'Arrear');
+    // Calculate CGPA
+    let tw=0, tc=0;
+    allResults.forEach(s => { tw += s.sgpa*(s.subjects.reduce((a,sub)=>a+(sub.credits||0),0)); tc += s.subjects.reduce((a,sub)=>a+(sub.credits||0),0); });
+    const cgpa = tc > 0 ? (tw/tc).toFixed(2) : '—';
+
+    document.getElementById('cgpa-val').textContent = cgpa;
+    document.getElementById('sem-count').textContent = cleared;
+    document.getElementById('total-credits').textContent = totalCredits;
+    document.getElementById('arrear-val').textContent = hasArrear ? 'Has Arrear' : 'All Clear';
+    document.getElementById('arrear-card').className = 'summary-card ' + (hasArrear ? 'red' : 'green');
+
+    showSem(tabs.firstChild, 0);
+  };
+
+  function doLogout() {
+    if (confirm('Logout?')) { fetch('/api/auth/logout').then(() => window.location.href = '/login'); }
+  }
+</script>
+</body>
+</html>

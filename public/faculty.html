@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET Faculty Panel</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#1a5c2a;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8b0;font-size:10px;}
+    .header-right{text-align:right;}
+    .faculty-name{font-size:13px;font-weight:bold;color:white;}
+    .faculty-badge{display:inline-block;background:#fd7e14;color:white;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:bold;margin-top:4px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .tabs{background:#143d1e;display:flex;flex-wrap:wrap;}
+    .tab-btn{color:#aaa;border:none;background:none;padding:0 14px;height:38px;font-size:11px;font-weight:bold;cursor:pointer;text-transform:uppercase;border-bottom:3px solid transparent;}
+    .tab-btn:hover{color:white;}
+    .tab-btn.active{color:#fd7e14;border-bottom-color:#fd7e14;background:rgba(255,255,255,0.05);}
+    .page-wrapper{max-width:1150px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .tab-content{display:none;}.tab-content.active{display:block;}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+    .stat-card{background:white;border-radius:8px;padding:14px 16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.1);border-top:4px solid #fd7e14;}
+    .stat-card.green{border-top-color:#28a745;}.stat-card.blue{border-top-color:#1E73BE;}.stat-card.red{border-top-color:#dc3545;}.stat-card.purple{border-top-color:#6f42c1;}
+    .stat-card .val{font-size:28px;font-weight:bold;color:#143D55;}
+    .stat-card .lbl{font-size:10px;color:#808080;margin-top:4px;text-transform:uppercase;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:20px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
+    .panel-body{padding:16px;}
+    .grid-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .grid-table th{background:#1a5c2a;color:white;padding:8px 12px;text-align:left;font-weight:normal;}
+    .grid-table td{border-bottom:1px solid #D8D8D8;padding:8px 12px;color:#333;vertical-align:middle;}
+    .grid-table tr:hover td{background:#f0fff4;}
+    .btn{padding:5px 12px;border:none;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .btn-green{background:#28a745;color:white;}.btn-blue{background:#1E73BE;color:white;}.btn-red{background:#dc3545;color:white;}.btn-orange{background:#fd7e14;color:white;}
+    .form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+    .form-group{display:flex;flex-direction:column;gap:4px;}
+    .form-group label{font-weight:bold;color:#555;font-size:11px;}
+    .form-group input,.form-group select,.form-group textarea{border:1px solid #D8D8D8;border-radius:4px;padding:7px 10px;font-size:12px;outline:none;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#1a5c2a;}
+    .search-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+    .search-bar input,.search-bar select{border:1px solid #D8D8D8;border-radius:4px;padding:7px 10px;font-size:12px;flex:1;min-width:160px;}
+    .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-weight:bold;font-size:11px;}
+    .badge-green{background:#d4edda;color:#155724;}.badge-red{background:#f8d7da;color:#721c24;}.badge-blue{background:#cce5ff;color:#004085;}.badge-orange{background:#fff3cd;color:#856404;}
+    /* Analysis styles */
+    .analysis-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px;}
+    .analysis-card{background:white;border-radius:8px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.08);border-left:4px solid #1a5c2a;}
+    .analysis-card h3{font-size:12px;color:#666;text-transform:uppercase;margin-bottom:10px;}
+    .bar-wrap{margin-bottom:6px;}
+    .bar-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;color:#555;}
+    .bar-track{background:#e9ecef;border-radius:4px;height:14px;overflow:hidden;}
+    .bar-fill{height:100%;border-radius:4px;transition:width 0.4s;}
+    .big-stat{display:flex;gap:12px;flex-wrap:wrap;}
+    .big-stat-item{flex:1;min-width:80px;text-align:center;background:#f8f9fa;border-radius:6px;padding:10px;}
+    .big-stat-item .v{font-size:22px;font-weight:bold;color:#143D55;}
+    .big-stat-item .l{font-size:10px;color:#888;margin-top:2px;}
+    .filter-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px;background:#f8f9fa;padding:12px;border-radius:6px;}
+    .filter-row .form-group{flex:1;min-width:130px;}
+    #toast{position:fixed;bottom:24px;right:24px;background:#28a745;color:white;padding:10px 20px;border-radius:6px;font-weight:bold;display:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+    #toast.error{background:#dc3545;}
+    .subject-entry-table{width:100%;border-collapse:collapse;}
+    .subject-entry-table th{background:#1a5c2a;color:white;padding:7px 10px;font-size:11px;text-align:left;}
+    .subject-entry-table td{padding:5px 6px;border-bottom:1px solid #eee;}
+    .subject-entry-table input,.subject-entry-table select{width:100%;padding:4px 6px;border:1px solid #ccc;border-radius:3px;font-size:11px;}
+    .student-selector{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+    .student-selector label{font-weight:bold;color:#555;white-space:nowrap;}
+    .student-selector select{flex:1;min-width:200px;border:1px solid #D8D8D8;border-radius:4px;padding:7px 10px;font-size:12px;}
+    .notice-card{border:1px solid #D8D8D8;border-radius:6px;padding:12px;margin-bottom:10px;}
+    .notice-card .notice-title{font-weight:bold;color:#143D55;font-size:13px;}
+    .notice-card .notice-meta{font-size:10px;color:#888;margin-top:4px;}
+    .notice-card .notice-body{margin-top:8px;color:#444;font-size:12px;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Faculty Panel — Student Portal Management</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="faculty-name" id="faculty-name">Faculty</div>
+    <div class="faculty-badge">🎓 FACULTY</div><br>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" onclick="showTab('students',this)">👨‍🎓 Students</button>
+  <button class="tab-btn" onclick="showTab('results',this)">📝 Enter Results</button>
+  <button class="tab-btn" onclick="showTab('sea',this)">📈 SEA Performance</button>
+  <button class="tab-btn" onclick="showTab('mark-attendance',this)">✅ Mark Attendance</button>
+  <button class="tab-btn" onclick="showTab('weekly-attendance',this)">📆 Weekly Update</button>
+  <button class="tab-btn" onclick="showTab('att-summary',this)">📊 Att. Summary</button>
+  <button class="tab-btn" onclick="showTab('analysis',this)">🔬 Result Analysis</button>
+  <button class="tab-btn" onclick="showTab('notices',this)">📋 Notices</button>
+</div>
+
+<div class="page-wrapper">
+
+<!-- DASHBOARD -->
+<div class="tab-content active" id="tab-dashboard">
+  <br>
+  <div class="stats-row">
+    <div class="stat-card blue"><div class="val" id="stat-students">—</div><div class="lbl">My Students</div></div>
+    <div class="stat-card green"><div class="val" id="stat-pass">—</div><div class="lbl">Passed</div></div>
+    <div class="stat-card red"><div class="val" id="stat-arrear">—</div><div class="lbl">Arrears</div></div>
+    <div class="stat-card purple"><div class="val" id="stat-avgsgpa">—</div><div class="lbl">Class Avg SGPA</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-header">🎓 Welcome to Faculty Panel</div>
+    <div class="panel-body">
+      <p style="color:#555;line-height:1.8;">
+        You are logged in as <strong id="dash-name">—</strong> — <span id="dash-dept">—</span>.<br>
+        Use the tabs above to manage student results, view analysis, post notices, and more.<br>
+        Your access is limited to the departments and batches assigned by the administrator.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENTS -->
+<div class="tab-content" id="tab-students">
+  <br>
+  <div class="panel">
+    <div class="panel-header">👨‍🎓 My Students</div>
+    <div class="panel-body">
+      <div class="search-bar">
+        <input type="text" id="stu-search" placeholder="🔍 Search name or register number..." oninput="filterStudents()">
+        <select id="stu-dept-filter" onchange="filterStudents()">
+          <option value="">All Departments</option>
+          <option>IT</option><option>CSE</option><option>ECE</option><option>MECH</option><option>CIVIL</option><option>EEE</option>
+        </select>
+      </div>
+      <table class="grid-table">
+        <thead><tr><th>#</th><th>Register No</th><th>Name</th><th>Dept</th><th>Batch</th><th>Semester</th></tr></thead>
+        <tbody id="stu-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:#999;">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ENTER RESULTS -->
+<div class="tab-content" id="tab-results">
+  <br>
+  <div class="panel">
+    <div class="panel-header">📝 Enter / Update Exam Results</div>
+    <div class="panel-body">
+      <div class="student-selector">
+        <label>Select Student *</label>
+        <select id="res-student" onchange="loadExistingResults()">
+          <option value="">-- Select Student --</option>
+        </select>
+        <select id="res-semester" onchange="loadExistingResults()">
+          <option value="1">Semester 1</option><option value="2">Semester 2</option>
+          <option value="3">Semester 3</option><option value="4" selected>Semester 4</option>
+          <option value="5">Semester 5</option><option value="6">Semester 6</option>
+          <option value="7">Semester 7</option><option value="8">Semester 8</option>
+        </select>
+        <button class="btn btn-orange" onclick="loadExistingResults()" title="Auto-fill from curriculum">📚 Load from Syllabus</button>
+        <button class="btn btn-green" onclick="addResultRow()">+ Add Row</button>
+      </div>
+      <div id="existing-results-info" style="margin-bottom:10px;font-size:11px;"></div>
+      <table class="subject-entry-table" id="result-table">
+        <thead><tr><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Internal</th><th>External</th><th>Grade</th><th></th></tr></thead>
+        <tbody id="result-rows"><tr><td colspan="7" style="text-align:center;color:#999;padding:16px;">Select a student &amp; semester, then click "Load from Syllabus"</td></tr></tbody>
+      </table>
+      <br>
+      <button class="btn btn-green" onclick="saveResults()">💾 Save Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEA PERFORMANCE -->
+<div class="tab-content" id="tab-sea">
+  <br>
+  <div class="panel">
+    <div class="panel-header">📈 Enter SEA Performance</div>
+    <div class="panel-body">
+      <div class="student-selector">
+        <label>Select Student *</label>
+        <select id="sea-student"><option value="">-- Select Student --</option></select>
+        <select id="sea-semester">
+          <option value="1">Semester 1</option><option value="2">Semester 2</option>
+          <option value="3">Semester 3</option><option value="4" selected>Semester 4</option>
+          <option value="5">Semester 5</option><option value="6">Semester 6</option>
+          <option value="7">Semester 7</option><option value="8">Semester 8</option>
+        </select>
+        <button class="btn btn-green" onclick="addSEARow()">+ Add Row</button>
+      </div>
+      <table class="subject-entry-table" id="sea-table">
+        <thead><tr><th>Subject Code</th><th>Subject Name</th><th>Internal</th><th>External</th><th>Total</th><th>Max</th><th>Result</th><th></th></tr></thead>
+        <tbody id="sea-rows"></tbody>
+      </table>
+      <br>
+      <button class="btn btn-green" onclick="saveSEA()">💾 Save SEA</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT ANALYSIS -->
+<div class="tab-content" id="tab-analysis">
+  <br>
+  <div class="panel">
+    <div class="panel-header">🔬 Class Result Analysis</div>
+    <div class="panel-body">
+      <div class="filter-row">
+        <div class="form-group"><label>Department</label>
+          <select id="an-dept">
+            <option value="">All</option>
+            <option>IT</option><option>CSE</option><option>ECE</option><option>MECH</option><option>CIVIL</option><option>EEE</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Batch</label>
+          <select id="an-batch">
+            <option value="">All</option>
+            <option>2024-2028</option><option>2023-2027</option><option>2022-2026</option><option>2021-2025</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Semester</label>
+          <select id="an-sem">
+            <option value="">All</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            <option value="7">7</option><option value="8">8</option>
+          </select>
+        </div>
+        <button class="btn btn-orange" onclick="loadAnalysis()" style="height:34px;align-self:flex-end;">🔍 Analyse</button>
+      </div>
+      <div id="analysis-output"><div style="text-align:center;color:#888;padding:30px;">Select filters and click Analyse to view class performance.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICES -->
+<div class="tab-content" id="tab-notices">
+  <br>
+  <div class="panel">
+    <div class="panel-header">📋 Post a Notice</div>
+    <div class="panel-body">
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:1/3;"><label>Notice Title *</label><input type="text" id="n-title" placeholder="e.g. Internal Assessment Marks Published"></div>
+        <div class="form-group"><label>Category</label>
+          <select id="n-category">
+            <option>General</option><option>Important</option><option>Update</option><option>Notice</option><option>Deadline</option><option>Published</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column:1/4;"><label>Content *</label><textarea id="n-content" rows="3" placeholder="Notice details..."></textarea></div>
+      </div>
+      <button class="btn btn-green" onclick="postNotice()">📢 Post Notice</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header">📋 All Notices</div>
+    <div class="panel-body" id="notices-list"><div style="text-align:center;color:#999;padding:20px;">Loading...</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- MARK ATTENDANCE TAB                           -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-mark-attendance">
+  <br>
+  <div class="panel">
+    <div class="panel-header">✅ Mark Class Attendance — Live Session</div>
+    <div class="panel-body">
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Subject Code *</label>
+          <select id="att-subject-select" onchange="fillSubjectName()">
+            <option value="">-- Select Subject --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Subject Name</label>
+          <input type="text" id="att-subject-name" placeholder="Auto-filled" readonly style="background:#f8f8f8;">
+        </div>
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="att-date">
+        </div>
+        <div class="form-group">
+          <label>Period</label>
+          <select id="att-period">
+            <option>1st Period</option><option>2nd Period</option><option>3rd Period</option>
+            <option>4th Period</option><option>5th Period</option><option>6th Period</option>
+            <option>7th Period</option><option>8th Period</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <select id="att-dept" onchange="loadAttStudents()">
+            <option value="">All</option>
+            <option>IT</option><option>CSE</option><option>ECE</option>
+            <option>EEE</option><option>MECH</option><option>CIVIL</option><option>AIDS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Semester</label>
+          <select id="att-sem" onchange="loadAttStudents()">
+            <option value="">All</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
+        <button class="btn btn-blue" onclick="loadAttStudents()">🔄 Load Students</button>
+        <button class="btn btn-green" onclick="markAll('Present')">✅ Mark All Present</button>
+        <button class="btn btn-red" onclick="markAll('Absent')">❌ Mark All Absent</button>
+        <span id="att-count-info" style="font-size:11px;color:#888;"></span>
+      </div>
+      <div id="att-student-list">
+        <div style="text-align:center;color:#999;padding:20px;">Load students to mark attendance</div>
+      </div>
+      <br>
+      <button class="btn btn-green" onclick="saveAttendance()" style="font-size:13px;padding:8px 24px;">💾 Save Attendance</button>
+    </div>
+  </div>
+
+  <!-- Recent Sessions -->
+  <div class="panel">
+    <div class="panel-header">🕒 Recent Sessions</div>
+    <div class="panel-body" id="recent-sessions-list">
+      <div style="text-align:center;color:#999;padding:16px;">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- WEEKLY ATTENDANCE UPDATE TAB                  -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-weekly-attendance">
+  <br>
+  <div class="panel">
+    <div class="panel-header">📆 Post Weekly Attendance Update</div>
+    <div class="panel-body">
+      <p style="font-size:12px;color:#555;margin-bottom:14px;">
+        Enter the number of classes held and attended for each subject for a student this week. Students will see this in their Attendance page.
+      </p>
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Week Label *</label>
+          <input type="text" id="wk-label" placeholder="e.g. Week 3 (Apr 14–18)">
+        </div>
+        <div class="form-group">
+          <label>Select Student *</label>
+          <select id="wk-student"><option value="">-- Select Student --</option></select>
+        </div>
+        <div class="form-group">
+          <label>Semester</label>
+          <select id="wk-sem" onchange="loadWeeklySubjects()">
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4" selected>4</option><option value="5">5</option>
+            <option value="6">6</option><option value="7">7</option><option value="8">8</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-blue" onclick="loadWeeklySubjects()" style="margin-bottom:14px;">📚 Load Subjects from Syllabus</button>
+      <div id="weekly-subjects-area">
+        <div style="text-align:center;color:#999;padding:16px;">Select a student and click Load Subjects</div>
+      </div>
+      <br>
+      <button class="btn btn-green" onclick="saveWeeklyAttendance()" style="font-size:13px;padding:8px 24px;">💾 Save Weekly Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- ATTENDANCE SUMMARY TAB                        -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-att-summary">
+  <br>
+  <div class="panel">
+    <div class="panel-header">📊 Class Attendance Summary</div>
+    <div class="panel-body">
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <input type="text" id="att-sum-search" placeholder="🔍 Search student..." oninput="filterAttSummary()" style="border:1px solid #D8D8D8;border-radius:4px;padding:7px 10px;font-size:12px;flex:1;min-width:160px;">
+        <select id="att-sum-filter" onchange="filterAttSummary()" style="border:1px solid #D8D8D8;border-radius:4px;padding:7px 10px;font-size:12px;">
+          <option value="">All Students</option>
+          <option value="low">Below 75%</option>
+          <option value="danger">Below 65%</option>
+        </select>
+        <button class="btn btn-blue" onclick="loadAttSummary()">🔄 Refresh</button>
+      </div>
+      <div id="att-summary-body">
+        <div style="text-align:center;color:#999;padding:20px;">Loading attendance summary...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-wrapper -->
+<div class="footer">Copyright &copy; 2026 LICET Faculty Portal. All rights reserved.</div>
+<div id="toast"></div>
+
+<script>
+let allStudents = [], myFaculty = null;
+
+// showTab defined below (with attendance tab hooks)
+
+window.onload = async () => {
+  const r = await fetch('/api/auth/me');
+  const d = await r.json();
+  if (!d.success || d.role !== 'faculty') { window.location.href = '/login'; return; }
+  myFaculty = d.faculty;
+  document.getElementById('faculty-name').textContent = '🎓 ' + d.faculty.name;
+  document.getElementById('dash-name').textContent = d.faculty.name;
+  document.getElementById('dash-dept').textContent = d.faculty.department + ' | ' + (d.faculty.designation||'Faculty');
+  await loadStudents();
+};
+
+async function loadStudents() {
+  const d = await fetch('/api/faculty/students').then(r=>r.json());
+  if (!d.success) return;
+  allStudents = d.students;
+  document.getElementById('stat-students').textContent = allStudents.length;
+  renderStudents(allStudents);
+  populateStudentSelects(allStudents);
+}
+
+function renderStudents(list) {
+  const tbody = document.getElementById('stu-tbody');
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#999;">No students found.</td></tr>'; return; }
+  tbody.innerHTML = list.map((s,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${s.register_no}</strong></td>
+      <td>${s.name}</td>
+      <td><span class="badge badge-blue">${s.department}</span></td>
+      <td>${s.batch}</td>
+      <td>Sem ${s.semester}</td>
+    </tr>`).join('');
+}
+
+function populateStudentSelects(list) {
+  const opts = '<option value="">-- Select Student --</option>' +
+    list.map(s => `<option value="${s._id}" data-regno="${s.register_no}">${s.register_no} — ${s.name} (${s.department})</option>`).join('');
+  document.getElementById('res-student').innerHTML = opts;
+  document.getElementById('sea-student').innerHTML = opts;
+  const wkSel = document.getElementById('wk-student');
+  if (wkSel) wkSel.innerHTML = opts;
+}
+
+function filterStudents() {
+  const q    = document.getElementById('stu-search').value.toLowerCase();
+  const dept = document.getElementById('stu-dept-filter').value;
+  renderStudents(allStudents.filter(s =>
+    (s.name.toLowerCase().includes(q) || s.register_no.toLowerCase().includes(q)) &&
+    (dept ? s.department === dept : true)
+  ));
+}
+
+// ── CURRICULUM CACHE ──────────────────────────
+let curriculumCache = null;
+async function getCurriculum() {
+  if (curriculumCache) return curriculumCache;
+  try { curriculumCache = await fetch('/curriculum.json').then(r=>r.json()); }
+  catch(e) { curriculumCache = {}; }
+  return curriculumCache;
+}
+
+// ── RESULTS ──────────────────────────────────
+const GRADES = ['O','A+','A','B+','B','C','RA','U','W'];
+
+function addResultRow(data={}) {
+  const tb = document.getElementById('result-rows');
+  if (tb.querySelector('td[colspan]')) tb.innerHTML = '';
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><input type="text" placeholder="Code" value="${data.subject_code||''}" style="width:80px;"></td>
+    <td><input type="text" placeholder="Subject Name" value="${data.subject_name||''}" style="min-width:180px;"></td>
+    <td><input type="number" placeholder="Cr" min="0" max="10" value="${data.credits||''}" style="width:45px;"></td>
+    <td><input type="number" placeholder="0-50" min="0" max="50" value="${data.internal||''}" style="width:55px;"></td>
+    <td><input type="number" placeholder="0-100" min="0" max="100" value="${data.external||''}" style="width:60px;"></td>
+    <td><select>${GRADES.map(g=>`<option${(data.grade||'O')===g?' selected':''}>${g}</option>`).join('')}</select></td>
+    <td><button class="btn btn-red" onclick="this.closest('tr').remove()">✕</button></td>`;
+  tb.appendChild(row);
+}
+
+async function loadExistingResults() {
+  const sid  = document.getElementById('res-student').value;
+  const sem  = Number(document.getElementById('res-semester').value);
+  const info = document.getElementById('existing-results-info');
+  if (!sid) return;
+
+  const stu = allStudents.find(s => s._id === sid);
+  const dept = stu ? stu.department : '';
+  const curriculum = await getCurriculum();
+  const subjects   = curriculum[dept]?.[String(sem)] || [];
+
+  const d = await fetch(`/api/faculty/results/${sid}`).then(r=>r.json());
+  let existingMap = {};
+  if (d.success) {
+    const semData = d.results.find(r => r.semester === sem);
+    if (semData) {
+      semData.subjects.forEach(s => { existingMap[s.subject_code] = s; });
+      info.style.color = '#28a745';
+      info.textContent = `✅ Existing data for Semester ${sem} (SGPA: ${semData.sgpa}) — update marks below.`;
+    } else { info.textContent = ''; }
+  }
+
+  document.getElementById('result-rows').innerHTML = '';
+  if (subjects.length) {
+    subjects.forEach(sub => {
+      const ex = existingMap[sub.code] || {};
+      addResultRow({ subject_code:sub.code, subject_name:sub.name, credits:sub.credits,
+        internal:ex.internal||'', external:ex.external||'', grade:ex.grade||'O' });
+    });
+    if (!info.textContent) {
+      info.style.color = '#1a5c2a';
+      info.textContent = `📚 ${subjects.length} subjects loaded from ${dept} Semester ${sem} curriculum.`;
+    }
+  } else {
+    if (!info.textContent) {
+      info.style.color = '#888';
+      info.textContent = dept
+        ? `⚠️ No curriculum found for ${dept} Sem ${sem}. Add rows manually.`
+        : 'Select a student to auto-load curriculum subjects.';
+    }
+  }
+}
+
+async function saveResults() {
+  const sid = document.getElementById('res-student').value;
+  const semester = document.getElementById('res-semester').value;
+  if (!sid) { showToast('Please select a student.', true); return; }
+  const sel = document.getElementById('res-student');
+  const register_no = sel.options[sel.selectedIndex]?.dataset?.regno || '';
+  const rows = document.querySelectorAll('#result-rows tr');
+  if (!rows.length || rows[0].querySelector('td[colspan]')) { showToast('Add at least one subject row.', true); return; }
+  const subjects = Array.from(rows).map(r => {
+    const inputs = r.querySelectorAll('input');
+    const grade  = r.querySelector('select').value;
+    return {
+      subject_code: inputs[0].value.trim(), subject_name: inputs[1].value.trim(),
+      credits: Number(inputs[2].value)||0, internal: Number(inputs[3].value)||0,
+      external: Number(inputs[4].value)||0, grade
+    };
+  });
+  const d = await fetch('/api/faculty/results', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ student_id: sid, register_no, semester, subjects })
+  }).then(r=>r.json());
+  d.success ? showToast(`✅ Results saved! SGPA: ${d.sgpa}`) : showToast(d.message, true);
+  if (d.success) loadDashboardStats();
+}
+
+// ── SEA ──────────────────────────────────────
+function addSEARow(data={}) {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><input type="text" placeholder="IT3401" value="${data.subject_code||''}"></td>
+    <td><input type="text" placeholder="Subject Name" value="${data.subject_name||''}"></td>
+    <td><input type="number" placeholder="0-50" value="${data.internal||''}" oninput="calcSEATotal(this)"></td>
+    <td><input type="number" placeholder="0-50" value="${data.external||''}" oninput="calcSEATotal(this)"></td>
+    <td><input type="number" readonly value="${data.total||''}"></td>
+    <td><input type="number" placeholder="100" value="${data.max||100}" style="width:60px;"></td>
+    <td><select><option${data.result==='Pass'?' selected':''}>Pass</option><option${data.result==='Fail'?' selected':''}>Fail</option></select></td>
+    <td><button class="btn btn-red" onclick="this.closest('tr').remove()">✕</button></td>`;
+  document.getElementById('sea-rows').appendChild(row);
+}
+function calcSEATotal(el) {
+  const row = el.closest('tr'); const inputs = row.querySelectorAll('input');
+  // inputs: [0]=code, [1]=name, [2]=internal, [3]=external, [4]=total, [5]=max
+  inputs[4].value = (Number(inputs[2].value)||0) + (Number(inputs[3].value)||0);
+}
+
+async function saveSEA() {
+  const sid = document.getElementById('sea-student').value;
+  const semester = document.getElementById('sea-semester').value;
+  if (!sid) { showToast('Please select a student.', true); return; }
+  const sel = document.getElementById('sea-student');
+  const register_no = sel.options[sel.selectedIndex]?.dataset?.regno || '';
+  const rows = document.querySelectorAll('#sea-rows tr');
+  if (!rows.length) { showToast('Add at least one row.', true); return; }
+  const subjects = Array.from(rows).map(r => {
+    const inputs = r.querySelectorAll('input'); const sel2 = r.querySelector('select');
+    return {
+      subject_code: inputs[0].value.trim(), subject_name: inputs[1].value.trim(),
+      internal: Number(inputs[2].value)||0, external: Number(inputs[3].value)||0,
+      total: Number(inputs[4].value)||0, max: Number(inputs[5].value)||100,
+      result: sel2.value
+    };
+  });
+  const d = await fetch('/api/faculty/sea-performance', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ student_id:sid, register_no, semester, subjects })
+  }).then(r=>r.json());
+  d.success ? showToast('✅ SEA saved!') : showToast(d.message, true);
+}
+
+// ── ANALYSIS ─────────────────────────────────
+async function loadAnalysis() {
+  const dept = document.getElementById('an-dept').value;
+  const batch = document.getElementById('an-batch').value;
+  const sem  = document.getElementById('an-sem').value;
+  const out  = document.getElementById('analysis-output');
+  out.innerHTML = '<div style="text-align:center;color:#1a5c2a;padding:20px;">⏳ Analysing class results...</div>';
+
+  const params = new URLSearchParams();
+  if (dept) params.set('department', dept);
+  if (batch) params.set('batch', batch);
+  if (sem) params.set('semester', sem);
+
+  const d = await fetch('/api/faculty/analysis?' + params).then(r=>r.json());
+  if (!d.success) { out.innerHTML = `<div style="text-align:center;color:red;padding:20px;">${d.message}</div>`; return; }
+  if (!d.analysis) { out.innerHTML = `<div style="text-align:center;color:#888;padding:20px;">No data found for the selected filters.</div>`; return; }
+
+  const a = d.analysis;
+
+  // Grade colours
+  const gradeColors = {O:'#28a745','A+':'#20c997',A:'#17a2b8','B+':'#6f42c1',B:'#fd7e14',C:'#ffc107',RA:'#dc3545',U:'#c82333',W:'#6c757d'};
+  const totalGrades = Object.values(a.gradeCounts).reduce((s,v)=>s+v,0);
+  const gradeBar = Object.entries(a.gradeCounts).filter(([,v])=>v>0).map(([g,v]) =>
+    `<div class="bar-wrap">
+      <div class="bar-label"><span>${g}</span><span>${v} (${totalGrades?((v/totalGrades)*100).toFixed(1):0}%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${totalGrades?((v/totalGrades)*100):0}%;background:${gradeColors[g]||'#888'};"></div></div>
+    </div>`).join('');
+
+  const totalSgpa = Object.values(a.sgpaBuckets).reduce((s,v)=>s+v,0);
+  const sgpaBar = Object.entries(a.sgpaBuckets).map(([range,v]) =>
+    `<div class="bar-wrap">
+      <div class="bar-label"><span>${range}</span><span>${v} students</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${totalSgpa?((v/totalSgpa)*100):0}%;background:#1E73BE;"></div></div>
+    </div>`).join('');
+
+  const topperRows = a.toppers.map((t,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${t.name}</strong></td>
+      <td>${t.register_no}</td>
+      <td>${t.department}</td>
+      <td><span class="badge badge-green">${t.sgpa}</span></td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:#999;">No data</td></tr>';
+
+  const arrearRows = a.arrearList.map(s=>`
+    <tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.register_no}</td>
+      <td>${s.department}</td>
+      <td>${s.sgpa}</td>
+      <td style="color:#dc3545;">${s.arrearSubjects.join(', ')}</td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:#28a745;">🎉 No arrears!</td></tr>';
+
+  const subjectRows = a.subjectWise.map(s=>`
+    <tr>
+      <td>${s.code}</td>
+      <td>${s.name}</td>
+      <td style="color:#28a745;text-align:center;">${s.pass}</td>
+      <td style="color:#dc3545;text-align:center;">${s.fail}</td>
+      <td style="text-align:center;">${s.total}</td>
+      <td style="text-align:center;">
+        <span class="badge ${s.passRate>=75?'badge-green':s.passRate>=50?'badge-orange':'badge-red'}">${s.passRate}%</span>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:#999;">No data</td></tr>';
+
+  const allStudentRows = a.studentResults.map((s,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${s.register_no}</td>
+      <td>${s.name}</td>
+      <td>${s.department}</td>
+      <td>${s.sgpa}</td>
+      <td><span class="badge ${s.result==='Arrear'?'badge-red':'badge-green'}">${s.result}</span></td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:#999;">No result data entered yet</td></tr>';
+
+  out.innerHTML = `
+    <!-- Summary cards -->
+    <div class="stats-row" style="margin-bottom:16px;">
+      <div class="stat-card blue"><div class="val">${a.total}</div><div class="lbl">Total Students</div></div>
+      <div class="stat-card green"><div class="val">${a.passed}</div><div class="lbl">Passed (${a.passPercent}%)</div></div>
+      <div class="stat-card red"><div class="val">${a.arrear}</div><div class="lbl">Arrears</div></div>
+      <div class="stat-card purple"><div class="val">${a.avgSgpa}</div><div class="lbl">Avg SGPA</div></div>
+    </div>
+
+    <!-- SGPA Stats -->
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <h3>📊 SGPA Overview</h3>
+        <div class="big-stat">
+          <div class="big-stat-item"><div class="v">${a.avgSgpa}</div><div class="l">Average</div></div>
+          <div class="big-stat-item"><div class="v">${a.maxSgpa}</div><div class="l">Highest</div></div>
+          <div class="big-stat-item"><div class="v">${a.minSgpa}</div><div class="l">Lowest</div></div>
+          <div class="big-stat-item"><div class="v">${a.appeared}</div><div class="l">Appeared</div></div>
+        </div>
+      </div>
+      <div class="analysis-card">
+        <h3>📈 SGPA Distribution</h3>
+        ${sgpaBar}
+      </div>
+    </div>
+
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <h3>🎓 Grade Distribution (All Subjects)</h3>
+        ${gradeBar}
+      </div>
+      <div class="analysis-card">
+        <h3>✅ Pass / Fail Summary</h3>
+        <div class="big-stat" style="margin-bottom:12px;">
+          <div class="big-stat-item" style="background:#d4edda;"><div class="v" style="color:#155724;">${a.passed}</div><div class="l">Passed</div></div>
+          <div class="big-stat-item" style="background:#f8d7da;"><div class="v" style="color:#721c24;">${a.arrear}</div><div class="l">Arrear</div></div>
+          <div class="big-stat-item"><div class="v">${a.passPercent}%</div><div class="l">Pass Rate</div></div>
+        </div>
+        <div class="bar-track" style="height:20px;">
+          <div class="bar-fill" style="width:${a.passPercent}%;background:#28a745;height:100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toppers -->
+    <div class="panel" style="margin-top:0;">
+      <div class="panel-header">🏆 Top 5 Students (by SGPA)</div>
+      <div class="panel-body" style="padding:0;">
+        <table class="grid-table">
+          <thead><tr><th>Rank</th><th>Name</th><th>Register No</th><th>Dept</th><th>SGPA</th></tr></thead>
+          <tbody>${topperRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Subject-wise Pass Rate -->
+    <div class="panel">
+      <div class="panel-header">📚 Subject-wise Pass Rate</div>
+      <div class="panel-body" style="padding:0;">
+        <table class="grid-table">
+          <thead><tr><th>Code</th><th>Subject</th><th style="text-align:center;">Pass</th><th style="text-align:center;">Fail</th><th style="text-align:center;">Total</th><th style="text-align:center;">Pass Rate</th></tr></thead>
+          <tbody>${subjectRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Arrear students -->
+    <div class="panel">
+      <div class="panel-header">⚠️ Students with Arrears (${a.arrearList.length})</div>
+      <div class="panel-body" style="padding:0;">
+        <table class="grid-table">
+          <thead><tr><th>Name</th><th>Register No</th><th>Dept</th><th>SGPA</th><th>Arrear Subjects</th></tr></thead>
+          <tbody>${arrearRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- All Students -->
+    <div class="panel">
+      <div class="panel-header">👨‍🎓 All Student Results</div>
+      <div class="panel-body" style="padding:0;">
+        <table class="grid-table">
+          <thead><tr><th>#</th><th>Register No</th><th>Name</th><th>Dept</th><th>SGPA</th><th>Result</th></tr></thead>
+          <tbody>${allStudentRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // Update dashboard stats
+  document.getElementById('stat-pass').textContent = a.passed;
+  document.getElementById('stat-arrear').textContent = a.arrear;
+  document.getElementById('stat-avgsgpa').textContent = a.avgSgpa;
+}
+
+async function loadDashboardStats() {
+  const params = new URLSearchParams();
+  const d = await fetch('/api/faculty/analysis?' + params).then(r=>r.json());
+  if (d.success && d.analysis) {
+    document.getElementById('stat-pass').textContent = d.analysis.passed;
+    document.getElementById('stat-arrear').textContent = d.analysis.arrear;
+    document.getElementById('stat-avgsgpa').textContent = d.analysis.avgSgpa;
+  }
+}
+
+// ── NOTICES ──────────────────────────────────
+async function loadNotices() {
+  const d = await fetch('/api/faculty/notices').then(r=>r.json());
+  const list = document.getElementById('notices-list');
+  if (!d.success || !d.notices.length) { list.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">No notices yet.</div>'; return; }
+  list.innerHTML = d.notices.map(n => `
+    <div class="notice-card">
+      <div class="notice-title">${n.title} <span class="badge badge-blue">${n.category||'General'}</span></div>
+      <div class="notice-meta">Posted by ${n.posted_by||'Admin'} on ${new Date(n.created_at).toLocaleDateString('en-IN')}</div>
+      <div class="notice-body">${n.content}</div>
+    </div>`).join('');
+}
+
+async function postNotice() {
+  const title = document.getElementById('n-title').value.trim();
+  const content = document.getElementById('n-content').value.trim();
+  const category = document.getElementById('n-category').value;
+  if (!title||!content) { showToast('Title and content are required.', true); return; }
+  const d = await fetch('/api/faculty/notices', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ title, content, category })
+  }).then(r=>r.json());
+  if (d.success) {
+    showToast('✅ Notice posted!');
+    document.getElementById('n-title').value='';
+    document.getElementById('n-content').value='';
+    loadNotices();
+  } else showToast(d.message, true);
+}
+
+function showToast(msg, isErr=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = isErr ? 'error' : '';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3500);
+}
+function doLogout() {
+  if (confirm('Logout?')) fetch('/api/auth/logout').then(() => window.location.href = '/login');
+}
+
+// ══════════════════════════════════════════════
+//  ATTENDANCE — MARK LIVE SESSION
+// ══════════════════════════════════════════════
+let attStudentList = [];
+let subjectMap = {};  // code -> name
+
+async function initAttendancTab() {
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  if (document.getElementById('att-date')) document.getElementById('att-date').value = today;
+  await loadAttStudents();
+  await loadRecentSessions();
+  await buildSubjectDropdown();
+}
+
+async function buildSubjectDropdown() {
+  const curriculum = await getCurriculum();
+  const sel = document.getElementById('att-subject-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">-- Select Subject --</option>';
+  const added = new Set();
+  // Add all subjects from all depts for this faculty
+  const depts = myFaculty?.allowed_departments?.length ? myFaculty.allowed_departments : ['AIDS','CSE','IT','ECE','EEE','MECH'];
+  depts.forEach(dept => {
+    const sems = curriculum[dept] || {};
+    Object.values(sems).forEach(subjects => {
+      subjects.forEach(sub => {
+        if (!added.has(sub.code)) {
+          added.add(sub.code);
+          subjectMap[sub.code] = sub.name;
+          const opt = document.createElement('option');
+          opt.value = sub.code;
+          opt.textContent = `${sub.code} — ${sub.name}`;
+          sel.appendChild(opt);
+        }
+      });
+    });
+  });
+}
+
+function fillSubjectName() {
+  const code = document.getElementById('att-subject-select').value;
+  document.getElementById('att-subject-name').value = subjectMap[code] || '';
+}
+
+async function loadAttStudents() {
+  const dept = document.getElementById('att-dept')?.value || '';
+  const sem  = document.getElementById('att-sem')?.value || '';
+  const d = await fetch('/api/attendance/faculty/students').then(r=>r.json());
+  if (!d.success) return;
+  attStudentList = d.students.filter(s =>
+    (dept ? s.department === dept : true) &&
+    (sem  ? String(s.semester) === sem : true)
+  );
+  document.getElementById('att-count-info').textContent = `${attStudentList.length} students loaded`;
+  renderAttStudentList();
+}
+
+function renderAttStudentList() {
+  const container = document.getElementById('att-student-list');
+  if (!attStudentList.length) {
+    container.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">No students found for selected filters.</div>';
+    return;
+  }
+  container.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr style="background:#1a5c2a;color:white;">
+        <th style="padding:8px 10px;text-align:left;">#</th>
+        <th style="padding:8px 10px;text-align:left;">Register No</th>
+        <th style="padding:8px 10px;text-align:left;">Name</th>
+        <th style="padding:8px 10px;text-align:left;">Dept/Sem</th>
+        <th style="padding:8px 10px;text-align:center;">Status</th>
+      </tr></thead>
+      <tbody>
+        ${attStudentList.map((s,i) => `
+          <tr style="border-bottom:1px solid #eee;">
+            <td style="padding:7px 10px;">${i+1}</td>
+            <td style="padding:7px 10px;font-weight:bold;">${s.register_no}</td>
+            <td style="padding:7px 10px;">${s.name}</td>
+            <td style="padding:7px 10px;color:#666;">${s.department} / Sem${s.semester}</td>
+            <td style="padding:7px 10px;text-align:center;">
+              <div style="display:flex;gap:4px;justify-content:center;">
+                <label style="cursor:pointer;"><input type="radio" name="att_${s._id}" value="Present" checked> <span style="color:#28a745;font-weight:bold;">P</span></label>
+                <label style="cursor:pointer;margin-left:8px;"><input type="radio" name="att_${s._id}" value="Absent"> <span style="color:#dc3545;font-weight:bold;">A</span></label>
+                <label style="cursor:pointer;margin-left:8px;"><input type="radio" name="att_${s._id}" value="OD"> <span style="color:#fd7e14;font-weight:bold;">OD</span></label>
+                <label style="cursor:pointer;margin-left:8px;"><input type="radio" name="att_${s._id}" value="Late"> <span style="color:#6f42c1;font-weight:bold;">L</span></label>
+              </div>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function markAll(status) {
+  attStudentList.forEach(s => {
+    const radio = document.querySelector(`input[name="att_${s._id}"][value="${status}"]`);
+    if (radio) radio.checked = true;
+  });
+}
+
+async function saveAttendance() {
+  const subject_code = document.getElementById('att-subject-select').value;
+  const subject_name = document.getElementById('att-subject-name').value;
+  const date         = document.getElementById('att-date').value;
+  const period       = document.getElementById('att-period').value;
+  const department   = document.getElementById('att-dept').value;
+  const semester     = document.getElementById('att-sem').value;
+
+  if (!subject_code) { showToast('Please select a subject.', true); return; }
+  if (!date)         { showToast('Please select a date.', true); return; }
+  if (!attStudentList.length) { showToast('No students loaded.', true); return; }
+
+  const records = attStudentList.map(s => {
+    const selected = document.querySelector(`input[name="att_${s._id}"]:checked`);
+    return { student_id: s._id, register_no: s.register_no, status: selected ? selected.value : 'Absent' };
+  });
+
+  const d = await fetch('/api/attendance/faculty/session', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ subject_code, subject_name, department, batch:'', semester: Number(semester)||0, date, period, records })
+  }).then(r=>r.json());
+
+  if (d.success) {
+    showToast(`✅ ${d.message}`);
+    await loadRecentSessions();
+    await loadAttSummary();
+  } else showToast(d.message, true);
+}
+
+async function loadRecentSessions() {
+  const d = await fetch('/api/attendance/faculty/sessions').then(r=>r.json());
+  const el = document.getElementById('recent-sessions-list');
+  if (!d.success || !d.sessions.length) {
+    el.innerHTML = '<div style="text-align:center;color:#999;padding:16px;">No sessions recorded yet.</div>';
+    return;
+  }
+  el.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead><tr style="background:#1a5c2a;color:white;">
+      <th style="padding:7px 10px;">Date</th><th style="padding:7px 10px;">Subject</th>
+      <th style="padding:7px 10px;">Period</th><th style="padding:7px 10px;text-align:center;">Present</th>
+      <th style="padding:7px 10px;text-align:center;">Absent</th><th style="padding:7px 10px;text-align:center;">Total</th>
+    </tr></thead>
+    <tbody>
+      ${d.sessions.map(sess => {
+        const present = sess.records.filter(r=>r.status==='Present'||r.status==='OD'||r.status==='Late').length;
+        const absent  = sess.records.filter(r=>r.status==='Absent').length;
+        return `<tr style="border-bottom:1px solid #eee;">
+          <td style="padding:7px 10px;">${sess.date}</td>
+          <td style="padding:7px 10px;">${sess.subject_code} — ${sess.subject_name||''}</td>
+          <td style="padding:7px 10px;">${sess.period||'—'}</td>
+          <td style="padding:7px 10px;text-align:center;color:#28a745;font-weight:bold;">${present}</td>
+          <td style="padding:7px 10px;text-align:center;color:#dc3545;font-weight:bold;">${absent}</td>
+          <td style="padding:7px 10px;text-align:center;">${sess.records.length}</td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>`;
+}
+
+// ══════════════════════════════════════════════
+//  ATTENDANCE — WEEKLY UPDATE
+// ══════════════════════════════════════════════
+async function loadWeeklySubjects() {
+  const sid = document.getElementById('wk-student').value;
+  const sem = Number(document.getElementById('wk-sem').value);
+  const area = document.getElementById('weekly-subjects-area');
+
+  const stu = allStudents.find(s => s._id === sid);
+  const dept = stu ? stu.department : '';
+  const curriculum = await getCurriculum();
+  const subjects = curriculum[dept]?.[String(sem)] || [];
+
+  if (!subjects.length) {
+    area.innerHTML = `<div style="color:#888;padding:12px;">⚠️ No curriculum data for ${dept} Sem ${sem}. Add subjects manually.</div>`;
+    return;
+  }
+
+  area.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px;" id="wk-table">
+      <thead><tr style="background:#1a5c2a;color:white;">
+        <th style="padding:8px 10px;">Subject Code</th>
+        <th style="padding:8px 10px;">Subject Name</th>
+        <th style="padding:8px 10px;text-align:center;">Classes Held</th>
+        <th style="padding:8px 10px;text-align:center;">Classes Attended</th>
+        <th style="padding:8px 10px;text-align:center;">%</th>
+      </tr></thead>
+      <tbody>
+        ${subjects.map(sub => `
+          <tr style="border-bottom:1px solid #eee;" data-code="${sub.code}" data-name="${sub.name}">
+            <td style="padding:7px 10px;font-weight:bold;">${sub.code}</td>
+            <td style="padding:7px 10px;">${sub.name}</td>
+            <td style="padding:7px 10px;text-align:center;"><input type="number" class="wk-held" min="0" value="0" style="width:60px;border:1px solid #ccc;border-radius:3px;padding:3px 6px;text-align:center;" oninput="calcWkPct(this)"></td>
+            <td style="padding:7px 10px;text-align:center;"><input type="number" class="wk-attended" min="0" value="0" style="width:60px;border:1px solid #ccc;border-radius:3px;padding:3px 6px;text-align:center;" oninput="calcWkPct(this)"></td>
+            <td style="padding:7px 10px;text-align:center;font-weight:bold;" class="wk-pct">—</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function calcWkPct(el) {
+  const row = el.closest('tr');
+  const held = Number(row.querySelector('.wk-held').value) || 0;
+  const att  = Number(row.querySelector('.wk-attended').value) || 0;
+  const pct  = held > 0 ? ((att/held)*100).toFixed(1) : '—';
+  const pctEl = row.querySelector('.wk-pct');
+  pctEl.textContent = pct === '—' ? '—' : pct + '%';
+  const num = Number(pct);
+  pctEl.style.color = num >= 75 ? '#28a745' : num >= 65 ? '#fd7e14' : '#dc3545';
+}
+
+async function saveWeeklyAttendance() {
+  const sid   = document.getElementById('wk-student').value;
+  const label = document.getElementById('wk-label').value.trim();
+  if (!sid)   { showToast('Please select a student.', true); return; }
+  if (!label) { showToast('Please enter a week label.', true); return; }
+
+  const rows = document.querySelectorAll('#wk-table tbody tr');
+  if (!rows.length) { showToast('Load subjects first.', true); return; }
+
+  const stu = allStudents.find(s => s._id === sid);
+  const subjects = Array.from(rows).map(row => ({
+    subject_code: row.dataset.code,
+    subject_name: row.dataset.name,
+    classes_held:     Number(row.querySelector('.wk-held').value) || 0,
+    classes_attended: Number(row.querySelector('.wk-attended').value) || 0
+  }));
+
+  const d = await fetch('/api/attendance/faculty/weekly', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ week_label: label, entries: [{ student_id: sid, register_no: stu?.register_no, subjects }] })
+  }).then(r=>r.json());
+
+  d.success ? showToast('✅ Weekly attendance saved!') : showToast(d.message, true);
+}
+
+// ══════════════════════════════════════════════
+//  ATTENDANCE — CLASS SUMMARY
+// ══════════════════════════════════════════════
+let attSummaryData = [];
+
+async function loadAttSummary() {
+  const d = await fetch('/api/attendance/faculty/class-summary').then(r=>r.json());
+  attSummaryData = d.records || [];
+  renderAttSummary(attSummaryData);
+}
+
+function filterAttSummary() {
+  const q      = document.getElementById('att-sum-search').value.toLowerCase();
+  const filter = document.getElementById('att-sum-filter').value;
+  let list = attSummaryData;
+  if (q) list = list.filter(r => (r.name||'').toLowerCase().includes(q) || (r.register_no||'').toLowerCase().includes(q));
+  if (filter === 'low')    list = list.filter(r => getOverallPct(r) < 75);
+  if (filter === 'danger') list = list.filter(r => getOverallPct(r) < 65);
+  renderAttSummary(list);
+}
+
+function getOverallPct(rec) {
+  const subs = rec.subject_totals || [];
+  const held = subs.reduce((a,s)=>a+(s.classes_held||0),0);
+  const att  = subs.reduce((a,s)=>a+(s.classes_attended||0),0);
+  return held > 0 ? parseFloat(((att/held)*100).toFixed(1)) : 0;
+}
+
+function renderAttSummary(list) {
+  const el = document.getElementById('att-summary-body');
+  if (!list.length) { el.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">No attendance records found.</div>'; return; }
+  el.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead><tr style="background:#1a5c2a;color:white;">
+      <th style="padding:8px 10px;">#</th>
+      <th style="padding:8px 10px;">Register No</th>
+      <th style="padding:8px 10px;">Name</th>
+      <th style="padding:8px 10px;">Dept</th>
+      <th style="padding:8px 10px;text-align:center;">Overall %</th>
+      <th style="padding:8px 10px;">Subjects</th>
+      <th style="padding:8px 10px;">Status</th>
+    </tr></thead>
+    <tbody>
+      ${list.map((r,i) => {
+        const pct = getOverallPct(r);
+        const color = pct >= 75 ? '#28a745' : pct >= 65 ? '#fd7e14' : '#dc3545';
+        const badge = pct >= 75
+          ? '<span style="background:#d4edda;color:#155724;padding:2px 10px;border-radius:12px;font-size:11px;">✅ Safe</span>'
+          : pct >= 65
+          ? '<span style="background:#fff3cd;color:#856404;padding:2px 10px;border-radius:12px;font-size:11px;">⚠️ Low</span>'
+          : '<span style="background:#f8d7da;color:#721c24;padding:2px 10px;border-radius:12px;font-size:11px;">🚨 Detained</span>';
+        const subjSummary = (r.subject_totals||[]).map(s=>
+          `<span style="font-size:10px;color:${s.percentage>=75?'#28a745':s.percentage>=65?'#fd7e14':'#dc3545'};">${s.subject_code}: ${s.percentage}%</span>`
+        ).join(' &nbsp;');
+        return `<tr style="border-bottom:1px solid #eee;">
+          <td style="padding:7px 10px;">${i+1}</td>
+          <td style="padding:7px 10px;font-weight:bold;">${r.register_no}</td>
+          <td style="padding:7px 10px;">${r.name||'—'}</td>
+          <td style="padding:7px 10px;">${r.department||'—'}</td>
+          <td style="padding:7px 10px;text-align:center;font-weight:bold;font-size:14px;color:${color};">${pct}%</td>
+          <td style="padding:7px 10px;">${subjSummary||'—'}</td>
+          <td style="padding:7px 10px;">${badge}</td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>`;
+}
+
+// Override showTab to trigger attendance tab loads
+const _baseShowTab = function(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'notices') loadNotices();
+  if (name === 'analysis') document.getElementById('analysis-output').innerHTML = '<div style="text-align:center;color:#888;padding:30px;">Select filters and click Analyse.</div>';
+};
+function showTab(name, el) {
+  _baseShowTab(name, el);
+  if (name === 'mark-attendance') initAttendancTab();
+  if (name === 'weekly-attendance') {
+    // populate student selects
+    const sel = document.getElementById('wk-student');
+    if (sel && allStudents.length) {
+      sel.innerHTML = '<option value="">-- Select Student --</option>' +
+        allStudents.map(s=>`<option value="${s._id}">${s.register_no} — ${s.name} (${s.department})</option>`).join('');
+    }
+  }
+  if (name === 'att-summary') loadAttSummary();
+}
+
+</script>
+</body>
+</html>

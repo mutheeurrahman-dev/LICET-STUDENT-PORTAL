@@ -1,0 +1,170 @@
+/*
+
+		ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED     CONFIDENTIAL
+		------------------------------------------------------------------------------------------------------
+
+		Unpublished Copyright (c) 2020-2021 ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED. All Rights Reserved.
+
+		NOTICE:   All information contained herein is, and remains the property of ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED.
+		The intellectual and technical concepts contained herein are proprietary to ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED
+		and may be covered by India and Foreign Patents, patents in process, and are protected by trade secret or copyright law.
+
+		Dissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained
+		from ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED.  Access to the source code contained herein is hereby forbidden to anyone
+		except current ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED employees, managers or contractors who have executed
+		Confidentiality and Non-disclosure agreements explicitly covering such access.
+
+		The copyright notice above does not evidence any actual or intended publication or disclosure of  this source code, which includes  
+		information that is confidential and/or proprietary, and is a trade secret of  ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED.  
+
+		ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC PERFORMANCE OR PUBLIC DISPLAY OF OR THROUGH USE OF
+		THIS  SOURCE CODE WITHOUT THE EXPRESS WRITTEN CONSENT OF ROVAN SOFTWARE SOLUTIONS PRIVATE LIMITED IS
+		STRICTLY PROHIBITED, AND IN VIOLATION OF APPLICABLE LAWS AND INTERNATIONAL TREATIES. THE RECEIPT OR POSSESSION
+		OF  THIS SOURCE CODE AND/OR RELATED INFORMATION DOES NOT CONVEY OR IMPLY ANY RIGHTS TO REPRODUCE, DISCLOSE
+		OR DISTRIBUTE ITS CONTENTS, OR TO MANUFACTURE, USE, OR SELL  ANYTHING THAT IT  MAY DESCRIBE, IN WHOLE OR IN PART.
+	*/
+
+	/*
+
+		Filename : datepickercontrol.css
+
+	*/
+
+
+
+#CalendarPickerControl{
+	background-color:transparent;
+	width: 230px;
+
+}
+
+#CalendarPickerControl table.calframe{
+	width:100%;
+	border:1px solid rgb(68,188,255);
+	background-color:white;
+	text-align:center;
+}
+/* css for timepicker */
+
+#CalendarPickerControl td.monthname{
+	padding:4px;
+	width:100%;
+	font:normal 11px Verdana;
+	color:rgb(0,0,0);
+	font-weight:bold;
+	text-align:center;
+	background-color:rgb(242,251,254);
+}
+
+#CalendarPickerControl table.navigation{
+	width:100%;
+	text-align:center;
+}
+
+#CalendarPickerControl td.navbutton{
+	font:normal 10px Verdana;
+	color:rgb(0,0,0);
+	font-weight:bold;
+	padding:4px 0 4px 0;
+	text-align:center;
+	background-color:white;
+	cursor:pointer;
+}
+
+#CalendarPickerControl span.yearbutton{
+	cursor:pointer;
+}
+
+#CalendarPickerControl span.yearbutton:hover{
+	text-decoration:underline;
+}
+
+#CalendarPickerControl td.navbutton:hover{
+	background-color:#800000;
+	color:white;
+	text-decoration:underline;
+}
+
+#CalendarPickerControl td.dayname{
+	font:normal 10px Verdana;
+	color:white;
+	padding:3px;
+	font-weight:bold;
+	text-align:center;
+	background-color:rgb(64,188,232);
+}
+
+#CalendarPickerControl td.today{
+	font:Bold 11px Verdana;
+	background-color:rgb(64,188,232);
+	padding:3px;
+	color:#ffffff;
+	text-decoration:none;
+	border: 0px solid #800000;
+	cursor:pointer;
+}
+
+#CalendarPickerControl td.today:hover{
+	text-decoration:underline;
+}
+
+#CalendarPickerControl td.current{
+	font:normal 10px Verdana;
+	font-weight:bold;
+	background-color:rgb(242,251,254);
+	color:#800000;
+	padding:2px;
+	text-decoration:none;
+	cursor:pointer;
+	border: 1px solid black;
+}
+
+#CalendarPickerControl td.current:hover{
+	text-decoration:underline;
+}
+
+#CalendarPickerControl td.day{
+	font:normal 11px Verdana;
+	background-color:rgb(242,251,254);
+	color:black;
+	padding:3px;
+	text-decoration:none;
+	cursor:pointer;
+	border: 0px solid transparent;
+}
+
+#CalendarPickerControl td.day:hover{
+	text-decoration:underline;
+	background-color:#ffffff
+}
+
+#CalendarPickerControl td.weekend{
+	font:normal 11px Verdana;
+	color:rgb(255,0,0);
+	padding:3px;
+	text-decoration:none;
+	background-color:rgb(242,251,254);
+	font-style:italic;
+	border: 0px solid transparent;
+	cursor:pointer;
+}
+
+#CalendarPickerControl td.weekend:hover{
+	background-color:#999999;
+	text-decoration:underline;
+}
+
+#CalendarPickerControl td.dayothermonth{
+	font:normal 11px Verdana;
+	background-color:#F2F2F2;
+	padding:3px;
+	color:#AAAAAA;
+	border: 0px solid #F2F2F2;
+}
+
+#CalendarPickerControl td.weeknumber{
+	font:normal 9px Verdana;
+	background-color: white;
+	color: #AAAAAA;
+	border-width: 0px;
+}

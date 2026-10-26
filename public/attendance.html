@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET - Attendance</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:10px;}
+    .header-right{text-align:right;}
+    .student-name{font-size:13px;font-weight:bold;color:white;}
+    .student-info{font-size:10px;color:#a8d8f0;margin-top:2px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;}
+    #dolphinnav{background:#1E73BE;height:33px;display:flex;align-items:center;}
+    #dolphinnav a{color:white;text-decoration:none;padding:0 12px;height:33px;line-height:33px;font-size:11px;text-transform:uppercase;display:inline-block;}
+    #dolphinnav a:hover{background:#fcfcfc;color:#1E73BE;font-weight:bold;}
+    .page-wrapper{max-width:1000px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .page-title{background:white;border-left:5px solid #1E73BE;padding:10px 16px;margin-bottom:16px;font-size:16px;font-weight:bold;color:#143D55;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    a.back-btn{display:inline-block;background:#EBF3FC;color:#030a66;border:1px solid #A8BCD7;padding:6px 16px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:bold;margin-bottom:16px;}
+    a.back-btn:hover{background:#1E73BE;color:white;}
+    .summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+    .summary-card{background:white;border-radius:6px;padding:14px;text-align:center;border-top:4px solid #1E73BE;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    .summary-card.green{border-top-color:#28a745;}
+    .summary-card.red{border-top-color:#dc3545;}
+    .summary-card.orange{border-top-color:#fd7e14;}
+    .summary-card .val{font-size:26px;font-weight:bold;color:#143D55;}
+    .summary-card .lbl{font-size:10px;color:#808080;margin-top:4px;text-transform:uppercase;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:20px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;}
+    .panel-body{padding:16px;}
+    .att-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .att-table th{background:#1E73BE;color:white;padding:9px 12px;text-align:left;font-weight:normal;}
+    .att-table td{border-bottom:1px solid #e0e0e0;padding:9px 12px;vertical-align:middle;}
+    .att-table tr:hover td{background:#f0f7ff;}
+    .pct-bar-wrap{width:100%;background:#e9ecef;border-radius:4px;height:12px;overflow:hidden;margin-top:3px;}
+    .pct-bar{height:100%;border-radius:4px;transition:width 0.5s;}
+    .pct-val{font-size:13px;font-weight:bold;}
+    .status-pill{display:inline-block;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:bold;}
+    .safe{background:#d4edda;color:#155724;}
+    .warning{background:#fff3cd;color:#856404;}
+    .danger{background:#f8d7da;color:#721c24;}
+    .week-tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+    .week-tab{padding:5px 14px;border:1px solid #A8BCD7;background:#EBF3FC;color:#030a66;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .week-tab.active,.week-tab:hover{background:#1E73BE;color:white;border-color:#1E73BE;}
+    .empty-state{text-align:center;padding:40px;color:#888;font-size:14px;}
+    .alert-box{padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:12px;font-weight:bold;}
+    .alert-danger{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;}
+    .alert-warning{background:#fff3cd;color:#856404;border:1px solid #ffeeba;}
+    .alert-safe{background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+    @media(max-width:600px){.summary-row{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Student Portal — LICET Chennai</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="student-name" id="sname">Loading...</div>
+    <div class="student-info" id="sinfo"></div>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+<div id="dolphinnav">
+  <a href="/home">🏠 Home</a>
+  <a href="/exam-result">📊 Results</a>
+  <a href="/cgpa-calculator">📈 CGPA</a>
+  <a href="/attendance" style="background:#fcfcfc;color:#1E73BE;font-weight:bold;">📅 Attendance</a>
+  <a href="/profile">👤 Profile</a>
+  <a href="#" onclick="doLogout()">🔴 Logout</a>
+</div>
+
+<div class="page-wrapper">
+  <a class="back-btn" href="/home">← Back to Home</a>
+  <div class="page-title">📅 My Attendance</div>
+
+  <!-- Summary Cards -->
+  <div class="summary-row">
+    <div class="summary-card"><div class="val" id="overall-pct">—</div><div class="lbl">Overall %</div></div>
+    <div class="summary-card green"><div class="val" id="total-present">—</div><div class="lbl">Classes Attended</div></div>
+    <div class="summary-card orange"><div class="val" id="total-held">—</div><div class="lbl">Classes Held</div></div>
+    <div class="summary-card red"><div class="val" id="subjects-low">—</div><div class="lbl">Subjects Below 75%</div></div>
+  </div>
+
+  <!-- Alert -->
+  <div id="att-alert" style="display:none;"></div>
+
+  <!-- Subject-wise Attendance -->
+  <div class="panel">
+    <div class="panel-header">📚 Subject-wise Attendance (Current)</div>
+    <div class="panel-body" id="subject-att-body">
+      <div class="empty-state">⏳ Loading attendance data...</div>
+    </div>
+  </div>
+
+  <!-- Weekly History -->
+  <div class="panel" id="weekly-panel" style="display:none;">
+    <div class="panel-header">📆 Weekly History</div>
+    <div class="panel-body">
+      <div class="week-tab-row" id="week-tabs"></div>
+      <div id="week-content"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">ℹ️ Attendance Policy</div>
+    <div class="panel-body" style="color:#555;line-height:1.8;font-size:12px;">
+      <strong>Minimum Attendance Required: 75%</strong><br>
+      Students with attendance below 75% in any subject may be detained from appearing in the end-semester examination.<br>
+      Students between 65%–74% may apply for condonation with valid reasons.<br>
+      Students below 65% will be detained. Contact your class advisor immediately if your attendance is low.
+    </div>
+  </div>
+</div>
+
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+
+<script>
+let attendanceData = null;
+
+function getPctColor(pct) {
+  if (pct >= 75) return '#28a745';
+  if (pct >= 65) return '#fd7e14';
+  return '#dc3545';
+}
+function getStatusPill(pct) {
+  if (pct >= 75) return `<span class="status-pill safe">✅ Safe</span>`;
+  if (pct >= 65) return `<span class="status-pill warning">⚠️ Low</span>`;
+  return `<span class="status-pill danger">🚨 Detained Risk</span>`;
+}
+
+function renderSubjectTable(subjects) {
+  if (!subjects || !subjects.length) {
+    return '<div class="empty-state">📭 No attendance data available yet. Your faculty will update attendance soon.</div>';
+  }
+  const rows = subjects.map(s => {
+    const pct = s.percentage || 0;
+    const color = getPctColor(pct);
+    return `<tr>
+      <td><strong>${s.subject_code}</strong></td>
+      <td>${s.subject_name || '—'}</td>
+      <td style="text-align:center;">${s.classes_attended || 0}</td>
+      <td style="text-align:center;">${s.classes_held || 0}</td>
+      <td style="min-width:120px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="pct-val" style="color:${color};min-width:40px;">${pct}%</span>
+          <div class="pct-bar-wrap" style="flex:1;">
+            <div class="pct-bar" style="width:${Math.min(pct,100)}%;background:${color};"></div>
+          </div>
+        </div>
+      </td>
+      <td>${getStatusPill(pct)}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="att-table">
+    <thead><tr>
+      <th>Code</th><th>Subject</th>
+      <th style="text-align:center;">Attended</th>
+      <th style="text-align:center;">Held</th>
+      <th>Attendance %</th>
+      <th>Status</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function showWeek(idx) {
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.week-tab')[idx]?.classList.add('active');
+  const week = attendanceData.weekly_updates[idx];
+  if (!week) return;
+  document.getElementById('week-content').innerHTML =
+    `<div style="font-size:11px;color:#888;margin-bottom:10px;">Updated: ${new Date(week.updated_at).toLocaleDateString('en-IN')}</div>` +
+    renderSubjectTable(week.subjects);
+}
+
+window.onload = async () => {
+  // Auth
+  const r = await fetch('/api/auth/me');
+  const d = await r.json();
+  if (!d.success) { window.location.href = '/login'; return; }
+  const s = d.student;
+  document.getElementById('sname').textContent = s.name;
+  document.getElementById('sinfo').textContent = s.department + ' | ' + s.batch + ' | Sem ' + s.semester;
+
+  // Fetch attendance
+  const ar = await fetch('/api/attendance/student/my');
+  const ad = await ar.json();
+
+  if (!ad.success || !ad.attendance) {
+    document.getElementById('subject-att-body').innerHTML =
+      '<div class="empty-state">📭 No attendance records found yet. Your faculty will update your attendance soon.</div>';
+    document.getElementById('overall-pct').textContent = '—';
+    document.getElementById('total-present').textContent = '0';
+    document.getElementById('total-held').textContent = '0';
+    document.getElementById('subjects-low').textContent = '0';
+    return;
+  }
+
+  attendanceData = ad.attendance;
+  const subjects = attendanceData.subject_totals || [];
+
+  // Overall stats
+  const totalHeld     = subjects.reduce((a,s) => a + (s.classes_held||0), 0);
+  const totalAttended = subjects.reduce((a,s) => a + (s.classes_attended||0), 0);
+  const overallPct    = totalHeld > 0 ? ((totalAttended/totalHeld)*100).toFixed(1) : 0;
+  const lowCount      = subjects.filter(s => (s.percentage||0) < 75).length;
+
+  document.getElementById('overall-pct').textContent = overallPct + '%';
+  document.getElementById('overall-pct').style.color = getPctColor(Number(overallPct));
+  document.getElementById('total-present').textContent = totalAttended;
+  document.getElementById('total-held').textContent = totalHeld;
+  document.getElementById('subjects-low').textContent = lowCount;
+
+  // Alert box
+  const alertEl = document.getElementById('att-alert');
+  if (Number(overallPct) < 65) {
+    alertEl.innerHTML = `<div class="alert-box alert-danger">🚨 <strong>DETAINED RISK:</strong> Your overall attendance is ${overallPct}%. You may be barred from the examination. Please contact your class advisor immediately.</div>`;
+    alertEl.style.display = 'block';
+    document.querySelector('.summary-card:first-child').style.borderTopColor = '#dc3545';
+  } else if (Number(overallPct) < 75) {
+    alertEl.innerHTML = `<div class="alert-box alert-warning">⚠️ <strong>LOW ATTENDANCE:</strong> Your overall attendance is ${overallPct}%. Minimum required is 75%. Please improve your attendance.</div>`;
+    alertEl.style.display = 'block';
+    document.querySelector('.summary-card:first-child').style.borderTopColor = '#fd7e14';
+  } else {
+    alertEl.innerHTML = `<div class="alert-box alert-safe">✅ Your overall attendance is <strong>${overallPct}%</strong>. Keep it up!</div>`;
+    alertEl.style.display = 'block';
+    document.querySelector('.summary-card:first-child').style.borderTopColor = '#28a745';
+  }
+
+  // Subject table
+  document.getElementById('subject-att-body').innerHTML = renderSubjectTable(subjects);
+
+  // Weekly history
+  const weeks = attendanceData.weekly_updates || [];
+  if (weeks.length > 0) {
+    document.getElementById('weekly-panel').style.display = 'block';
+    const tabRow = document.getElementById('week-tabs');
+    weeks.forEach((w, i) => {
+      const btn = document.createElement('div');
+      btn.className = 'week-tab' + (i === weeks.length-1 ? ' active' : '');
+      btn.textContent = w.week_label || `Week ${i+1}`;
+      btn.onclick = () => showWeek(i);
+      tabRow.appendChild(btn);
+    });
+    showWeek(weeks.length - 1); // show latest week by default
+  }
+};
+
+function doLogout() {
+  if (confirm('Logout?')) fetch('/api/auth/logout').then(() => window.location.href = '/login');
+}
+</script>
+</body>
+</html>

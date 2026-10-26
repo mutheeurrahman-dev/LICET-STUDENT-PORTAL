@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET Student Portal - Home</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <link rel="stylesheet" type="text/css" href="./combo.css">
+  <link rel="stylesheet" type="text/css" href="./datepickercontrol.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Verdana, sans-serif;
+      font-size: 12px;
+      background: #eaf4fb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #143D55;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header img.logo {
+      height: 55px;
+      border-radius: 50%;
+    }
+    .header-text h1 {
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .header-text p {
+      color: #a8d8f0;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    .header-right {
+      text-align: right;
+      color: white;
+    }
+    .header-right .student-name {
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+    }
+    .header-right .student-info {
+      font-size: 10px;
+      color: #a8d8f0;
+      margin-top: 2px;
+    }
+    .header-right .btn-logout {
+      margin-top: 6px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 4px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .header-right .btn-logout:hover { background: #b02a37; }
+
+    /* ── Nav Bar ── */
+    #dolphinnav {
+      background: #1E73BE;
+      height: 33px;
+      display: flex;
+      align-items: center;
+    }
+    #dolphinnav a {
+      color: white;
+      text-decoration: none;
+      padding: 0 14px;
+      height: 33px;
+      line-height: 33px;
+      font-size: 11px;
+      text-transform: uppercase;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    #dolphinnav a:hover, #dolphinnav a.active {
+      background: #fcfcfc;
+      color: #1E73BE;
+      font-weight: bold;
+    }
+
+    /* ── Welcome Banner ── */
+    .welcome-banner {
+      background: linear-gradient(135deg, #143D55, #1E73BE);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .welcome-banner h2 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .welcome-banner p {
+      font-size: 11px;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+    .welcome-banner .cgpa-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .welcome-banner .cgpa-badge .cgpa-val {
+      font-size: 26px;
+      font-weight: bold;
+    }
+    .welcome-banner .cgpa-badge .cgpa-lbl {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    /* ── Main Grid ── */
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 16px;
+      flex: 1;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #808080;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #D8D8D8;
+    }
+
+    /* ── Menu Grid ── */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 20px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: block;
+      border-bottom: 3px solid transparent;
+    }
+    .menu-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+      border-bottom-color: #1E73BE;
+      text-decoration: none;
+    }
+    .menu-card img {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .menu-card .card-label {
+      font-size: 11px;
+      color: #1E73BE;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+
+    /* Special card for CGPA Calculator (new feature) */
+    .menu-card.new-feature {
+      border: 2px dashed #1E73BE;
+      background: #f0f7ff;
+    }
+    .menu-card.new-feature .card-label {
+      color: #143D55;
+    }
+    .new-badge {
+      display: inline-block;
+      background: #28a745;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #f6f7f8;
+      border-top: 1px solid #D8D8D8;
+      text-align: center;
+      padding: 10px;
+      font-size: 11px;
+      color: #888;
+    }
+
+    /* ── Idle Timeout Warning ── */
+    #timeout-warning {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .welcome-banner { flex-direction: column; gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Student Portal — LICET Chennai</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="student-name" id="student-name">Welcome, Student</div>
+    <div class="student-info" id="student-info">Loading...</div>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+
+<!-- ── Nav Bar ── -->
+<div id="dolphinnav">
+  <a href="/home" class="active">🏠 Home</a>
+  <a href="/cgpa-calculator">📊 CGPA Calculator</a>
+  <a href="#" onclick="doLogout()">🔴 Logout</a>
+</div>
+
+<!-- ── Welcome Banner ── -->
+<div class="welcome-banner">
+  <div>
+    <h2>👋 Welcome, <span id="banner-name">Student</span>!</h2>
+    <p id="banner-info">Department | Batch | Semester</p>
+    <p style="margin-top:6px; font-size:11px; opacity:0.7;">
+      Select any option below to get started
+    </p>
+  </div>
+  <div class="cgpa-badge">
+    <div class="cgpa-val" id="banner-cgpa">—</div>
+    <div class="cgpa-lbl">Current CGPA</div>
+  </div>
+</div>
+
+<!-- ── Page Content ── -->
+<div class="page-wrapper">
+
+  <!-- Exam Section -->
+  <div class="section-title">📋 Exam Services</div>
+  <div class="menu-grid">
+
+    <a class="menu-card new-feature" href="/attendance">
+      <img src="./last_login_history.png" alt="Attendance">
+      <div class="card-label">📅 My Attendance</div>
+    </a>
+
+    <a class="menu-card" href="/notice-board">
+      <img src="./notice_board.jpg" alt="Notice Board">
+      <div class="card-label">Notice Board</div>
+    </a>
+
+    <a class="menu-card" href="/exam-application">
+      <img src="./exam_app.jpg" alt="Exam Application">
+      <div class="card-label">Exam Application</div>
+    </a>
+
+    <a class="menu-card" href="/hall-ticket">
+      <img src="./download.png" alt="Hall Ticket">
+      <div class="card-label">Download Hall Ticket</div>
+    </a>
+
+    <a class="menu-card" href="/exam-result">
+      <img src="./examwise.png" alt="Exam Result">
+      <div class="card-label">Exam Result</div>
+    </a>
+
+  </div>
+
+  <!-- Results & Performance -->
+  <div class="section-title">📊 Results & Performance</div>
+  <div class="menu-grid">
+
+    <a class="menu-card" href="/sea-performance">
+      <img src="./SEA.jpg" alt="SEA Performance">
+      <div class="card-label">SEA Performance</div>
+    </a>
+
+    <a class="menu-card" href="/photo-copy">
+      <img src="./photo_copy.png" alt="Photocopy">
+      <div class="card-label">Photocopy Application</div>
+    </a>
+
+    <a class="menu-card" href="/reval-application">
+      <img src="./reval_appln.png" alt="Revaluation">
+      <div class="card-label">Revaluation Application</div>
+    </a>
+
+    <a class="menu-card" href="/reval-result">
+      <img src="./reval_result.png" alt="Reval Result">
+      <div class="card-label">Revaluation Result</div>
+    </a>
+
+  </div>
+
+  <!-- Review -->
+  <div class="section-title">🔍 Review</div>
+  <div class="menu-grid">
+
+    <a class="menu-card" href="/review-application">
+      <img src="./review_app.jpg" alt="Review Application">
+      <div class="card-label">Review Application</div>
+    </a>
+
+    <a class="menu-card" href="/review-result">
+      <img src="./review_res.png" alt="Review Result">
+      <div class="card-label">Review Result</div>
+    </a>
+
+    <!-- ✅ NEW — CGPA Calculator -->
+    <a class="menu-card new-feature" href="/cgpa-calculator">
+      <div class="new-badge">✨ NEW</div>
+      <img src="./examwise.png" alt="CGPA Calculator" style="width:55px;height:55px;">
+      <div class="card-label">📊 CGPA Calculator</div>
+    </a>
+
+    <a class="menu-card" href="/profile">
+      <img src="./personal.jpg" alt="Profile">
+      <div class="card-label">My Profile</div>
+    </a>
+
+  </div>
+
+  <!-- Account -->
+  <div class="section-title">⚙️ Account</div>
+  <div class="menu-grid">
+
+    <a class="menu-card" href="/support">
+      <img src="./support.png" alt="Support">
+      <div class="card-label">Support</div>
+    </a>
+
+    <a class="menu-card" href="/login-history">
+      <img src="./last_login_history.png" alt="Login History">
+      <div class="card-label">Login History</div>
+    </a>
+
+    <a class="menu-card" onclick="doLogout()" href="#" style="border-bottom-color:#dc3545;">
+      <img src="./logout.jpg" alt="Logout">
+      <div class="card-label" style="color:#dc3545;">Logout</div>
+    </a>
+
+  </div>
+
+</div><!-- end page-wrapper -->
+
+<!-- ── Footer ── -->
+<div class="footer">
+  Copyright &copy; 2026 LICET Student Portal. All rights reserved.
+</div>
+
+<!-- LICET External Link Modal -->
+<div id="licet-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:white; border-radius:10px; padding:30px; max-width:420px; width:90%; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+    <div style="font-size:40px; margin-bottom:12px;">🔗</div>
+    <h3 style="color:#143D55; font-size:16px; margin-bottom:10px;">Opening LICET Portal</h3>
+    <p style="color:#666; font-size:12px; margin-bottom:6px;">This page is hosted on the official LICET college server.</p>
+    <p style="color:#666; font-size:12px; margin-bottom:20px;">You will need to <strong>login again</strong> with your college credentials on that page.</p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button onclick="closeLICETModal()" style="padding:8px 20px; border:1px solid #D8D8D8; background:#f6f7f8; border-radius:4px; cursor:pointer; font-size:12px;">❌ Cancel</button>
+      <a id="licet-modal-link" href="#" target="_blank" onclick="closeLICETModal()" style="padding:8px 20px; background:#1E73BE; color:white; border-radius:4px; text-decoration:none; font-size:12px; font-weight:bold;">✅ Open in New Tab</a>
+    </div>
+  </div>
+</div>
+
+<!-- Idle Timeout Warning -->
+<div id="timeout-warning">⚠️ You will be logged out in 1 minute due to inactivity!</div>
+
+<script>
+  // ── Open LICET External Page ───────────────
+  function openLICET(url) {
+    document.getElementById("licet-modal").style.display = "flex";
+    document.getElementById("licet-modal-link").href = url;
+  }
+  function closeLICETModal() {
+    document.getElementById("licet-modal").style.display = "none";
+  }
+
+  // ── Load Student Info ──────────────────────
+  window.onload = async () => {
+    try {
+      const res  = await fetch('/api/auth/me');
+      const data = await res.json();
+
+      if (!data.success) {
+        window.location.href = '/login';
+        return;
+      }
+
+      const s = data.student;
+      document.getElementById('student-name').textContent  = '👤 ' + s.name;
+      document.getElementById('student-info').textContent  = s.department + ' | ' + s.batch + ' | Sem ' + s.semester;
+      document.getElementById('banner-name').textContent   = s.name;
+      document.getElementById('banner-info').textContent   = s.department + ' Department | Batch ' + s.batch + ' | Semester ' + s.semester;
+
+      // Load CGPA
+      const cgpaRes  = await fetch('/api/cgpa/my');
+      const cgpaData = await cgpaRes.json();
+      if (cgpaData.success && cgpaData.cgpa > 0) {
+        document.getElementById('banner-cgpa').textContent = cgpaData.cgpa;
+      }
+
+    } catch(e) {
+      window.location.href = '/login';
+    }
+  };
+
+  // ── Logout ────────────────────────────────
+  async function doLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      await fetch('/api/auth/logout');
+      window.location.href = '/login';
+    }
+  }
+
+  // ── Idle Timeout (15 minutes) ─────────────
+  let idleSeconds = 0;
+  const IDLE_TIMEOUT = 900;
+
+  document.onclick     = () => idleSeconds = 0;
+  document.onmousemove = () => idleSeconds = 0;
+  document.onkeypress  = () => idleSeconds = 0;
+
+  setInterval(() => {
+    idleSeconds++;
+    // Show warning at 14 minutes
+    if (idleSeconds === 840) {
+      document.getElementById('timeout-warning').style.display = 'block';
+    }
+    // Logout at 15 minutes
+    if (idleSeconds >= IDLE_TIMEOUT) {
+      fetch('/api/auth/logout');
+      window.location.href = '/login';
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>

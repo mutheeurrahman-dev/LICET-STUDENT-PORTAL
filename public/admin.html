@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET Admin Panel</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:10px;}
+    .header-right{text-align:right;}
+    .admin-name{font-size:13px;font-weight:bold;color:white;}
+    .admin-badge{display:inline-block;background:#fd7e14;color:white;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:bold;margin-top:4px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;}
+    .tabs{background:#1a1a2e;display:flex;flex-wrap:wrap;}
+    .tab-btn{color:#aaa;border:none;background:none;padding:0 14px;height:38px;font-size:11px;font-weight:bold;cursor:pointer;text-transform:uppercase;border-bottom:3px solid transparent;}
+    .tab-btn:hover{color:white;}
+    .tab-btn.active{color:#fd7e14;border-bottom-color:#fd7e14;background:rgba(255,255,255,0.05);}
+    .page-wrapper{max-width:1100px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .tab-content{display:none;}.tab-content.active{display:block;}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+    .stat-card{background:white;border-radius:8px;padding:14px 16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.1);border-top:4px solid #fd7e14;}
+    .stat-card.blue{border-top-color:#1E73BE;}.stat-card.green{border-top-color:#28a745;}.stat-card.purple{border-top-color:#6f42c1;}
+    .stat-card .val{font-size:28px;font-weight:bold;color:#143D55;}
+    .stat-card .lbl{font-size:10px;color:#808080;margin-top:4px;text-transform:uppercase;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:20px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;display:flex;justify-content:space-between;align-items:center;}
+    .panel-body{padding:16px;}
+    .form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+    .form-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px;}
+    .form-group label{display:block;font-size:11px;font-weight:bold;color:#143D55;margin-bottom:4px;}
+    .form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid #D8D8D8;padding:7px 10px;font-size:12px;border-radius:3px;font-family:Arial;}
+    .form-group textarea{height:70px;resize:vertical;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#1E73BE;background:lightyellow;}
+    .btn{border:none;padding:7px 16px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;}
+    .btn-green{background:#28a745;color:white;}.btn-green:hover{background:#218838;}
+    .btn-blue{background:#1E73BE;color:white;}.btn-blue:hover{background:#155a9e;}
+    .btn-orange{background:#fd7e14;color:white;}.btn-orange:hover{background:#e56b00;}
+    .btn-sm{padding:3px 10px;font-size:11px;}
+    .btn-outline-red{background:white;color:#dc3545;border:1px solid #dc3545;}.btn-outline-red:hover{background:#dc3545;color:white;}
+    .btn-outline-orange{background:white;color:#fd7e14;border:1px solid #fd7e14;}.btn-outline-orange:hover{background:#fd7e14;color:white;}
+    .grid-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .grid-table th{background:#143D55;color:white;padding:8px 10px;text-align:left;font-weight:normal;font-size:11px;}
+    .grid-table td{border-bottom:1px solid #D8D8D8;padding:7px 10px;color:#333;vertical-align:middle;}
+    .grid-table tr:hover td{background:#f0f7ff;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-weight:bold;font-size:10px;}
+    .badge-green{background:#d4edda;color:#155724;}.badge-blue{background:#cce5ff;color:#004085;}
+    .badge-red{background:#f8d7da;color:#721c24;}.badge-orange{background:#fff3cd;color:#856404;}
+    .search-bar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+    .search-bar input{flex:1;min-width:180px;border:1px solid #D8D8D8;padding:6px 10px;border-radius:4px;font-size:12px;height:32px;}
+    .search-bar select{border:1px solid #D8D8D8;padding:0 8px;border-radius:4px;font-size:12px;height:32px;background:white;}
+    .subject-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;}
+    .subject-table th{background:#1E73BE;color:white;padding:6px 8px;font-weight:normal;}
+    .subject-table td{border:1px solid #D8D8D8;padding:4px 6px;}
+    .subject-table input,.subject-table select{width:100%;border:none;padding:3px 4px;font-size:11px;background:transparent;}
+    .subject-table input:focus,.subject-table select:focus{outline:1px solid #1E73BE;background:lightyellow;}
+    .student-selector{background:#f9fbff;border:1px solid #D8D8D8;border-radius:4px;padding:12px;margin-bottom:14px;}
+    .student-selector label{font-size:11px;font-weight:bold;color:#143D55;margin-bottom:4px;display:block;}
+    .student-selector select{width:100%;border:1px solid #D8D8D8;padding:7px 10px;font-size:12px;border-radius:3px;height:34px;}
+    #toast{position:fixed;bottom:20px;right:20px;background:#28a745;color:white;padding:10px 18px;border-radius:5px;font-size:12px;font-weight:bold;display:none;z-index:9999;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
+    #toast.error{background:#dc3545;}
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;align-items:center;justify-content:center;}
+    .modal.show{display:flex;}
+    .modal-box{background:white;border-radius:8px;padding:24px;width:340px;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+    .modal-box h3{font-size:14px;color:#143D55;margin-bottom:12px;}
+    .modal-box input{width:100%;border:1px solid #D8D8D8;padding:7px 10px;border-radius:3px;font-size:12px;margin-bottom:12px;}
+    .modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Admin Panel — Student Portal Management</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="admin-name" id="admin-name">Admin</div>
+    <div class="admin-badge">👑 ADMINISTRATOR</div><br>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" onclick="showTab('students',this)">👨‍🎓 Students</button>
+  <button class="tab-btn" onclick="showTab('results',this)">📊 Exam Results</button>
+  <button class="tab-btn" onclick="showTab('hallticket',this)">🎫 Hall Ticket</button>
+  <button class="tab-btn" onclick="showTab('examapp',this)">📝 Exam Application</button>
+  <button class="tab-btn" onclick="showTab('sea',this)">📈 SEA Performance</button>
+  <button class="tab-btn" onclick="showTab('notices',this)">📋 Notice Board</button>
+  <button class="tab-btn" onclick="showTab('faculty',this)">🎓 Faculty</button>
+</div>
+<div class="page-wrapper">
+
+  <!-- DASHBOARD -->
+  <div class="tab-content active" id="tab-dashboard">
+    <br>
+    <div class="stats-row">
+      <div class="stat-card blue"><div class="val" id="s-total">0</div><div class="lbl">Total Students</div></div>
+      <div class="stat-card green"><div class="val" id="s-depts">0</div><div class="lbl">Departments</div></div>
+      <div class="stat-card"><div class="val" id="s-batches">0</div><div class="lbl">Batches</div></div>
+      <div class="stat-card purple"><div class="val" id="s-notices">0</div><div class="lbl">Notices Posted</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">📌 Quick Guide</div>
+      <div class="panel-body">
+        <table class="grid-table">
+          <thead><tr><th>Tab</th><th>What you can do</th></tr></thead>
+          <tbody>
+            <tr><td>👨‍🎓 Students</td><td>Add new students, delete students, reset passwords</td></tr>
+            <tr><td>📊 Exam Results</td><td>Enter semester marks and grades for each student</td></tr>
+            <tr><td>🎫 Hall Ticket</td><td>Set exam dates and times for each student</td></tr>
+            <tr><td>📝 Exam Application</td><td>Add applied subjects for each student</td></tr>
+            <tr><td>📈 SEA Performance</td><td>Enter internal and external marks for each student</td></tr>
+            <tr><td>📋 Notice Board</td><td>Post and delete notices visible to all students</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENTS -->
+  <div class="tab-content" id="tab-students">
+    <br>
+    <div class="panel">
+      <div class="panel-header">➕ Add New Student</div>
+      <div class="panel-body">
+        <div class="form-grid">
+          <div class="form-group"><label>Register Number *</label><input type="text" id="n-regno" placeholder="e.g. 311124201112"></div>
+          <div class="form-group"><label>Full Name *</label><input type="text" id="n-name" placeholder="e.g. John Doe"></div>
+          <div class="form-group"><label>Password *</label><input type="text" id="n-pass" placeholder="e.g. test123"></div>
+          <div class="form-group"><label>Department *</label>
+            <select id="n-dept"><option>IT</option><option>CSE</option><option>ECE</option><option>MECH</option><option>CIVIL</option><option>EEE</option></select>
+          </div>
+          <div class="form-group"><label>Batch *</label>
+            <select id="n-batch"><option>2024-2028</option><option>2023-2027</option><option>2022-2026</option><option>2021-2025</option></select>
+          </div>
+          <div class="form-group"><label>Semester *</label>
+            <select id="n-sem"><option>1</option><option>2</option><option>3</option><option value="4" selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
+          </div>
+        </div>
+        <button class="btn btn-green" onclick="addStudent()">➕ Add Student</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">📤 Bulk Upload Students via Excel</div>
+      <div class="panel-body">
+        <p style="font-size:12px;color:#555;margin-bottom:12px;">
+          Upload an <strong>.xlsx</strong> file to add multiple students at once.
+          Required columns: <code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;">register_no, name, password, department, batch, semester</code>
+        </p>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+          <input type="file" id="bulk-file" accept=".xlsx,.xls" style="border:1px solid #D8D8D8;padding:6px 10px;border-radius:3px;font-size:12px;flex:1;min-width:200px;">
+          <button class="btn btn-blue" onclick="bulkUpload()">📤 Upload &amp; Import</button>
+          <button class="btn" style="background:#6c757d;color:white;" onclick="downloadTemplate()">⬇️ Download Template</button>
+        </div>
+        <div id="bulk-progress" style="display:none;font-size:12px;color:#1E73BE;margin-bottom:6px;">⏳ Uploading, please wait...</div>
+        <div id="bulk-result" style="font-size:12px;display:none;padding:10px;border-radius:4px;"></div>
+        <div style="margin-top:12px;background:#fffbea;border:1px solid #ffe082;border-radius:4px;padding:10px;font-size:11px;color:#856404;">
+          <strong>📌 Excel Format Tips:</strong><br>
+          • Column headers must be exactly: <em>register_no, name, password, department, batch, semester</em><br>
+          • <em>semester</em> must be a number (1–8). <em>batch</em> format: 2024-2028<br>
+          • Duplicate register numbers will be skipped automatically.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">👨‍🎓 All Students <span id="stu-count" style="font-size:11px;color:#808080;font-weight:normal;"></span></div>
+      <div class="panel-body">
+        <div class="search-bar">
+          <input type="text" id="stu-search" placeholder="🔍 Search name or register number..." oninput="filterStudents()">
+          <select id="stu-dept-filter" onchange="filterStudents()">
+            <option value="">All Departments</option>
+            <option>IT</option><option>CSE</option><option>ECE</option><option>MECH</option><option>CIVIL</option><option>EEE</option>
+          </select>
+        </div>
+        <table class="grid-table">
+          <thead><tr><th>#</th><th>Register No</th><th>Name</th><th>Dept</th><th>Batch</th><th>Sem</th><th>Actions</th></tr></thead>
+          <tbody id="stu-tbody"><tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM RESULTS -->
+  <div class="tab-content" id="tab-results">
+    <br>
+    <!-- Single Student Result Entry -->
+    <div class="panel">
+      <div class="panel-header">📊 Enter Exam Results — Single Student</div>
+      <div class="panel-body">
+        <div class="student-selector"><label>Select Student *</label>
+          <select id="res-student" onchange="loadExistingResults()"><option value="">-- Select Student --</option></select>
+        </div>
+        <div class="form-grid-2" style="max-width:600px;margin-bottom:10px;">
+          <div class="form-group"><label>Semester *</label>
+            <select id="res-sem" onchange="loadCurriculumForResult()">
+              <option>1</option><option>2</option><option>3</option><option selected>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+            </select>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end;gap:6px;">
+            <button class="btn btn-orange" onclick="loadCurriculumForResult()" title="Auto-fill subjects from curriculum">📚 Load from Syllabus</button>
+            <button class="btn btn-blue" onclick="addResultRow()">+ Add Row</button>
+          </div>
+        </div>
+        <div id="res-curriculum-info" style="font-size:11px;color:#1E73BE;margin-bottom:8px;"></div>
+        <div id="existing-res-info" style="font-size:11px;color:#28a745;margin-bottom:8px;"></div>
+        <table class="subject-table">
+          <thead><tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Internal</th><th>External</th><th>Grade</th><th></th></tr></thead>
+          <tbody id="res-tbody"><tr><td colspan="8" style="text-align:center;padding:10px;color:#999;">Select student & semester, then click "Load from Syllabus"</td></tr></tbody>
+        </table>
+        <br><button class="btn btn-green" onclick="saveResults()">💾 Save Results</button>
+      </div>
+    </div>
+
+    <!-- Bulk Results Upload via Excel -->
+    <div class="panel">
+      <div class="panel-header">📤 Bulk Results Upload via Excel</div>
+      <div class="panel-body">
+        <p style="font-size:12px;color:#555;margin-bottom:12px;">
+          Upload an Excel file to enter results for multiple students at once.<br>
+          Required columns: <code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;">register_no, semester, subject_code, subject_name, credits, internal, external, grade</code><br>
+          Grade values: O, A+, A, B+, B, C, RA, U, W
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;align-items:center;">
+          <input type="file" id="bulk-res-file" accept=".xlsx,.xls" style="border:1px solid #D8D8D8;padding:6px 10px;border-radius:3px;font-size:12px;flex:1;min-width:200px;">
+          <button class="btn btn-blue" onclick="bulkUploadResults()">📤 Upload Results</button>
+          <button class="btn" style="background:#6c757d;color:white;" onclick="downloadResultTemplate()">⬇️ Download Template</button>
+        </div>
+        <div id="bulk-res-progress" style="display:none;font-size:12px;color:#1E73BE;margin-bottom:6px;">⏳ Uploading...</div>
+        <div id="bulk-res-result" style="display:none;padding:10px;border-radius:4px;font-size:12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HALL TICKET -->
+  <div class="tab-content" id="tab-hallticket">
+    <br>
+    <div class="panel">
+      <div class="panel-header">🎫 Set Hall Ticket</div>
+      <div class="panel-body">
+        <div class="student-selector"><label>Select Student *</label>
+          <select id="ht-student"><option value="">-- Select Student --</option></select>
+        </div>
+        <div class="form-grid-2" style="max-width:500px;margin-bottom:14px;">
+          <div class="form-group"><label>Exam Month</label><input type="text" id="ht-month" placeholder="e.g. April / May 2026"></div>
+          <div class="form-group"><label>Exam Centre</label><input type="text" id="ht-centre" placeholder="e.g. LICET Main Campus"></div>
+        </div>
+        <table class="subject-table">
+          <thead><tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Exam Date</th><th>Time</th><th>Session</th><th></th></tr></thead>
+          <tbody id="ht-tbody"><tr><td colspan="7" style="text-align:center;padding:10px;color:#999;">Click "+ Add Subject" to start</td></tr></tbody>
+        </table>
+        <br>
+        <button class="btn btn-blue" onclick="addHTRow()" style="margin-right:8px;">+ Add Subject</button>
+        <button class="btn btn-green" onclick="saveHallTicket()">💾 Save Hall Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM APPLICATION -->
+  <div class="tab-content" id="tab-examapp">
+    <br>
+    <div class="panel">
+      <div class="panel-header">📝 Set Exam Application</div>
+      <div class="panel-body">
+        <div class="student-selector"><label>Select Student *</label>
+          <select id="ea-student"><option value="">-- Select Student --</option></select>
+        </div>
+        <div class="form-group" style="max-width:300px;margin-bottom:14px;">
+          <label>Exam Month</label><input type="text" id="ea-month" placeholder="e.g. April / May 2026">
+        </div>
+        <table class="subject-table">
+          <thead><tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Type</th><th>Credits</th><th></th></tr></thead>
+          <tbody id="ea-tbody"><tr><td colspan="6" style="text-align:center;padding:10px;color:#999;">Click "+ Add Subject" to start</td></tr></tbody>
+        </table>
+        <br>
+        <button class="btn btn-blue" onclick="addEARow()" style="margin-right:8px;">+ Add Subject</button>
+        <button class="btn btn-green" onclick="saveExamApp()">💾 Save Application</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEA PERFORMANCE -->
+  <div class="tab-content" id="tab-sea">
+    <br>
+    <div class="panel">
+      <div class="panel-header">📈 Set SEA Performance</div>
+      <div class="panel-body">
+        <div class="student-selector"><label>Select Student *</label>
+          <select id="sea-student"><option value="">-- Select Student --</option></select>
+        </div>
+        <div class="form-group" style="max-width:200px;margin-bottom:14px;"><label>Semester</label>
+          <select id="sea-sem"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select>
+        </div>
+        <table class="subject-table">
+          <thead><tr><th>#</th><th>Subject Code</th><th>Subject Name</th><th>Internal</th><th>External</th><th>Total</th><th>Result</th><th></th></tr></thead>
+          <tbody id="sea-tbody"><tr><td colspan="8" style="text-align:center;padding:10px;color:#999;">Click "+ Add Subject" to start</td></tr></tbody>
+        </table>
+        <br>
+        <button class="btn btn-blue" onclick="addSEARow()" style="margin-right:8px;">+ Add Subject</button>
+        <button class="btn btn-green" onclick="saveSEA()">💾 Save SEA Performance</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACULTY MANAGEMENT -->
+  <div class="tab-content" id="tab-faculty">
+    <br>
+    <div class="panel">
+      <div class="panel-header">➕ Add New Faculty</div>
+      <div class="panel-body">
+        <div class="form-grid">
+          <div class="form-group"><label>Faculty ID *</label><input type="text" id="f-id" placeholder="e.g. FAC001"></div>
+          <div class="form-group"><label>Full Name *</label><input type="text" id="f-name" placeholder="e.g. Dr. R. Sharma"></div>
+          <div class="form-group"><label>Password *</label><input type="text" id="f-pass" placeholder="e.g. fac123"></div>
+          <div class="form-group"><label>Department *</label>
+            <select id="f-dept"><option>IT</option><option>CSE</option><option>ECE</option><option>MECH</option><option>CIVIL</option><option>EEE</option></select>
+          </div>
+          <div class="form-group"><label>Designation</label>
+            <select id="f-designation">
+              <option>Assistant Professor</option><option>Associate Professor</option>
+              <option>Professor</option><option>Head of Department</option><option>Lab Instructor</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="faculty@licet.ac.in"></div>
+        </div>
+        <div style="background:#f0f7ff;border:1px solid #c8dff8;border-radius:6px;padding:12px;margin-bottom:14px;">
+          <div style="font-weight:bold;color:#143D55;margin-bottom:8px;font-size:12px;">🔒 Access Control — Which students can this faculty see?</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Allowed Departments (leave blank = all)</label>
+              <select id="f-allowed-depts" multiple style="height:80px;">
+                <option value="IT">IT</option><option value="CSE">CSE</option><option value="ECE">ECE</option>
+                <option value="MECH">MECH</option><option value="CIVIL">CIVIL</option><option value="EEE">EEE</option>
+              </select>
+              <small style="color:#888;">Hold Ctrl to select multiple</small>
+            </div>
+            <div class="form-group">
+              <label>Allowed Batches (leave blank = all)</label>
+              <select id="f-allowed-batches" multiple style="height:80px;">
+                <option value="2024-2028">2024-2028</option><option value="2023-2027">2023-2027</option>
+                <option value="2022-2026">2022-2026</option><option value="2021-2025">2021-2025</option>
+              </select>
+              <small style="color:#888;">Hold Ctrl to select multiple</small>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-green" onclick="addFaculty()">➕ Add Faculty</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">🎓 All Faculty Members <span id="fac-count" style="font-size:11px;color:#808080;font-weight:normal;"></span></div>
+      <div class="panel-body">
+        <table class="grid-table">
+          <thead><tr><th>#</th><th>Faculty ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Access</th><th>Actions</th></tr></thead>
+          <tbody id="fac-tbody"><tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTICE BOARD -->
+  <div class="tab-content" id="tab-notices">
+    <br>
+    <div class="panel">
+      <div class="panel-header">➕ Post New Notice</div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-group"><label>Title *</label><input type="text" id="nc-title" placeholder="e.g. Exam Schedule Released"></div>
+          <div class="form-group"><label>Category</label>
+            <select id="nc-cat"><option>Important</option><option>Update</option><option selected>Notice</option><option>Deadline</option><option>Published</option></select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;"><label>Content *</label>
+          <textarea id="nc-content" placeholder="Type the full notice content here..."></textarea>
+        </div>
+        <button class="btn btn-orange" onclick="postNotice()">📢 Post Notice</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">📋 All Notices</div>
+      <div class="panel-body">
+        <table class="grid-table">
+          <thead><tr><th>#</th><th>Title</th><th>Category</th><th>Date</th><th>Action</th></tr></thead>
+          <tbody id="notice-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+<div id="toast"></div>
+<div class="modal" id="reset-modal">
+  <div class="modal-box">
+    <h3>🔑 Reset Password for <span id="reset-name"></span></h3>
+    <input type="text" id="reset-pwd" placeholder="Enter new password">
+    <div class="modal-btns">
+      <button class="btn" style="background:#eee;color:#333;" onclick="document.getElementById('reset-modal').classList.remove('show')">Cancel</button>
+      <button class="btn btn-orange" onclick="confirmReset()">Reset</button>
+    </div>
+  </div>
+</div>
+<script>
+let allStudents=[], resetId=null;
+
+window.onload = async () => {
+  const r = await fetch('/api/auth/me');
+  const d = await r.json();
+  if (!d.success||d.role!=='admin') { window.location.href='/login'; return; }
+  document.getElementById('admin-name').textContent = '👑 '+d.admin.name;
+  await loadStats(); await loadStudents(); await loadNotices();
+};
+
+function showTab(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'faculty') loadFaculty();
+}
+
+async function loadStats() {
+  const d = await fetch('/api/admin/stats').then(r=>r.json());
+  if (d.success) {
+    document.getElementById('s-total').textContent=d.totalStudents;
+    document.getElementById('s-depts').textContent=d.totalDepartments;
+    document.getElementById('s-batches').textContent=d.totalBatches;
+    document.getElementById('s-notices').textContent=d.totalNotices;
+  }
+}
+
+async function loadStudents() {
+  const d = await fetch('/api/admin/students').then(r=>r.json());
+  if (d.success) { allStudents=d.students; renderStudents(allStudents); populateSelects(allStudents); }
+}
+
+function renderStudents(list) {
+  document.getElementById('stu-count').textContent=`(${list.length})`;
+  const tb=document.getElementById('stu-tbody');
+  if (!list.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">No students found.</td></tr>';return;}
+  tb.innerHTML=list.map((s,i)=>`
+    <tr>
+      <td style="color:#999;">${i+1}</td>
+      <td><strong>${s.register_no}</strong></td>
+      <td>${s.name}</td>
+      <td><span class="badge badge-blue">${s.department}</span></td>
+      <td>${s.batch}</td><td>Sem ${s.semester}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-orange" onclick="openReset('${s._id}','${s.name}')" style="margin-right:4px;">🔑 Reset</button>
+        <button class="btn btn-sm btn-outline-red" onclick="deleteStudent('${s._id}','${s.name}')">🗑️ Delete</button>
+      </td>
+    </tr>`).join('');
+}
+
+function populateSelects(list) {
+  ['res-student','ht-student','ea-student','sea-student'].forEach(id=>{
+    const sel=document.getElementById(id), val=sel.value;
+    sel.innerHTML='<option value="">-- Select Student --</option>'+
+      list.map(s=>`<option value="${s._id}" data-regno="${s.register_no}">${s.name} (${s.register_no})</option>`).join('');
+    sel.value=val;
+  });
+}
+
+function filterStudents() {
+  const q=document.getElementById('stu-search').value.toLowerCase();
+  const dept=document.getElementById('stu-dept-filter').value;
+  renderStudents(allStudents.filter(s=>(s.name.toLowerCase().includes(q)||s.register_no.toLowerCase().includes(q))&&(dept?s.department===dept:true)));
+}
+
+async function addStudent() {
+  const regno=document.getElementById('n-regno').value.trim(), name=document.getElementById('n-name').value.trim(), pass=document.getElementById('n-pass').value.trim();
+  const dept=document.getElementById('n-dept').value, batch=document.getElementById('n-batch').value, sem=document.getElementById('n-sem').value;
+  if (!regno||!name||!pass){showToast('Fill all required fields!',true);return;}
+  const d=await fetch('/api/admin/students',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({register_no:regno,name,password:pass,department:dept,batch,semester:sem})}).then(r=>r.json());
+  if (d.success){showToast('✅ Student added!');document.getElementById('n-regno').value='';document.getElementById('n-name').value='';document.getElementById('n-pass').value='';await loadStats();await loadStudents();}
+  else showToast(d.message,true);
+}
+
+async function deleteStudent(id,name) {
+  if (!confirm(`Delete "${name}"? Cannot be undone!`))return;
+  const d=await fetch(`/api/admin/students/${id}`,{method:'DELETE'}).then(r=>r.json());
+  if (d.success){showToast('🗑️ Deleted.');await loadStats();await loadStudents();}else showToast(d.message,true);
+}
+
+function openReset(id,name){resetId=id;document.getElementById('reset-name').textContent=name;document.getElementById('reset-pwd').value='';document.getElementById('reset-modal').classList.add('show');}
+async function confirmReset(){
+  const pwd=document.getElementById('reset-pwd').value.trim();
+  if (!pwd){showToast('Enter password!',true);return;}
+  const d=await fetch(`/api/admin/students/${resetId}/reset-password`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({new_password:pwd})}).then(r=>r.json());
+  if (d.success){showToast('🔑 Password reset!');document.getElementById('reset-modal').classList.remove('show');}else showToast(d.message,true);
+}
+
+// ── CURRICULUM CACHE ──────────────────────────
+let curriculumData = null;
+async function getCurriculum() {
+  if (curriculumData) return curriculumData;
+  try {
+    const d = await fetch('/curriculum.json').then(r=>r.json());
+    curriculumData = d;
+  } catch(e) { curriculumData = {}; }
+  return curriculumData;
+}
+
+// ── EXAM RESULTS ──────────────────────────────
+const GRADES = ['O','A+','A','B+','B','C','RA','U','W'];
+
+function makeGradeSelect(selected='O') {
+  return `<select style="width:72px;">${GRADES.map(g=>`<option${g===selected?' selected':''}>${g}</option>`).join('')}</select>`;
+}
+
+function addResultRow(data={}) {
+  const tb = document.getElementById('res-tbody');
+  if (tb.querySelector('td[colspan]')) tb.innerHTML = '';
+  const n = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="text-align:center;">${n}</td>
+    <td><input type="text" value="${data.subject_code||''}" placeholder="Code" style="width:80px;"></td>
+    <td><input type="text" value="${data.subject_name||''}" placeholder="Subject Name" style="min-width:180px;"></td>
+    <td><input type="number" value="${data.credits||''}" placeholder="Cr" style="width:45px;" min="0" max="10"></td>
+    <td><input type="number" value="${data.internal||''}" placeholder="0-50" style="width:55px;" min="0" max="50"></td>
+    <td><input type="number" value="${data.external||''}" placeholder="0-100" style="width:60px;" min="0" max="100"></td>
+    <td>${makeGradeSelect(data.grade||'O')}</td>
+    <td><button onclick="this.closest('tr').remove()" style="background:#dc3545;color:white;border:none;padding:2px 8px;border-radius:3px;cursor:pointer;">✕</button></td>`;
+  tb.appendChild(tr);
+}
+
+async function loadCurriculumForResult() {
+  const sel    = document.getElementById('res-student');
+  const sid    = sel.value;
+  const sem    = Number(document.getElementById('res-sem').value);
+  const infoEl = document.getElementById('res-curriculum-info');
+
+  // Determine dept from selected student
+  let dept = '';
+  if (sid) {
+    const stu = allStudents.find(s => s._id === sid);
+    if (stu) dept = stu.department;
+  }
+
+  const curriculum = await getCurriculum();
+  const subjects   = curriculum[dept]?.[String(sem)] || [];
+
+  if (!subjects.length) {
+    infoEl.textContent = dept
+      ? `⚠️ No curriculum data found for ${dept} Semester ${sem}. Add rows manually.`
+      : '⚠️ Select a student first to auto-detect department.';
+    return;
+  }
+
+  // Check if there is existing saved data for this semester
+  let existingMap = {};
+  if (sid) {
+    const d = await fetch(`/api/admin/results/${sid}`).then(r=>r.json());
+    if (d.success) {
+      const semData = d.results.find(r => r.semester === sem);
+      if (semData) {
+        semData.subjects.forEach(s => { existingMap[s.subject_code] = s; });
+        document.getElementById('existing-res-info').textContent =
+          `✅ Existing data loaded for Semester ${sem} (SGPA: ${semData.sgpa}) — enter marks to update.`;
+      } else {
+        document.getElementById('existing-res-info').textContent = '';
+      }
+    }
+  }
+
+  // Fill rows from curriculum, merge with existing if any
+  document.getElementById('res-tbody').innerHTML = '';
+  subjects.forEach(sub => {
+    const ex = existingMap[sub.code] || {};
+    addResultRow({
+      subject_code: sub.code,
+      subject_name: sub.name,
+      credits:      sub.credits,
+      internal:     ex.internal || '',
+      external:     ex.external || '',
+      grade:        ex.grade    || 'O'
+    });
+  });
+
+  infoEl.textContent = `📚 ${subjects.length} subjects loaded from ${dept} Semester ${sem} curriculum. Enter marks/grades below.`;
+}
+
+async function loadExistingResults() {
+  const sid = document.getElementById('res-student').value;
+  if (!sid) return;
+  // Auto-trigger curriculum load when student changes
+  await loadCurriculumForResult();
+}
+
+async function saveResults() {
+  const sel       = document.getElementById('res-student');
+  const student_id = sel.value;
+  const register_no = sel.options[sel.selectedIndex]?.dataset?.regno || '';
+  const semester  = document.getElementById('res-sem').value;
+  if (!student_id) { showToast('Select a student!', true); return; }
+  const rows = document.getElementById('res-tbody').querySelectorAll('tr');
+  if (!rows.length || rows[0].querySelector('td[colspan]')) { showToast('Add at least one subject!', true); return; }
+  const subjects = Array.from(rows).map(row => {
+    const inputs = row.querySelectorAll('input');
+    const grade  = row.querySelector('select').value;
+    return {
+      subject_code: inputs[0].value.trim(),
+      subject_name: inputs[1].value.trim(),
+      credits:      Number(inputs[2].value) || 0,
+      internal:     Number(inputs[3].value) || 0,
+      external:     Number(inputs[4].value) || 0,
+      grade
+    };
+  });
+  const d = await fetch('/api/admin/results', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ student_id, register_no, semester, subjects })
+  }).then(r=>r.json());
+  d.success ? showToast(`✅ Results saved! SGPA: ${d.sgpa}`) : showToast(d.message, true);
+}
+
+// ── BULK RESULTS UPLOAD ───────────────────────
+async function bulkUploadResults() {
+  const fileInput = document.getElementById('bulk-res-file');
+  const resultDiv = document.getElementById('bulk-res-result');
+  const progressDiv = document.getElementById('bulk-res-progress');
+  if (!fileInput.files.length) { showToast('Please select an Excel file.', true); return; }
+  progressDiv.style.display = 'block';
+  resultDiv.style.display = 'none';
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const wb   = XLSX.read(e.target.result, { type:'array' });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      if (!rows.length) { progressDiv.style.display='none'; showToast('No data rows found.',true); return; }
+      const normalised = rows.map(r => {
+        const obj = {};
+        Object.keys(r).forEach(k => { obj[k.trim().toLowerCase().replace(/\s+/g,'_')] = r[k]; });
+        return obj;
+      });
+      const d = await fetch('/api/admin/results/bulk', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ rows: normalised })
+      }).then(r=>r.json());
+      progressDiv.style.display = 'none';
+      resultDiv.style.display = 'block';
+      if (d.success) {
+        resultDiv.style.background = '#d4edda'; resultDiv.style.color = '#155724';
+        resultDiv.innerHTML = `✅ <strong>${d.message}</strong>` +
+          (d.errors && d.errors.length ? `<br><small style="color:#856404;">⚠️ ${d.errors.join(' | ')}</small>` : '');
+        fileInput.value = '';
+      } else {
+        resultDiv.style.background = '#f8d7da'; resultDiv.style.color = '#721c24';
+        resultDiv.innerHTML = '❌ ' + d.message;
+      }
+    } catch(err) {
+      progressDiv.style.display = 'none';
+      resultDiv.style.display = 'block';
+      resultDiv.style.background = '#f8d7da'; resultDiv.style.color = '#721c24';
+      resultDiv.innerHTML = '❌ Error reading file: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function downloadResultTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['register_no','semester','subject_code','subject_name','credits','internal','external','grade'],
+    ['311124201001',4,'MA24403','Transforms and Linear Algebra',4,42,71,'O'],
+    ['311124201001',4,'AD24401','Machine Learning',3,38,62,'A+'],
+    ['311124201002',4,'MA24403','Transforms and Linear Algebra',4,35,55,'B+'],
+  ]);
+  ws['!cols'] = [{wch:16},{wch:10},{wch:10},{wch:35},{wch:8},{wch:10},{wch:10},{wch:8}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Results');
+  XLSX.writeFile(wb, 'licet_bulk_results_template.xlsx');
+}
+
+// HALL TICKET
+let hr=0;
+function addHTRow(){
+  const tb=document.getElementById('ht-tbody');if(tb.querySelector('td[colspan]'))tb.innerHTML='';hr++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${hr}</td><td><input type="text" placeholder="IT3401"></td><td><input type="text" placeholder="Subject Name"></td><td><input type="text" placeholder="20-04-2026" style="width:90px;"></td><td><input type="text" placeholder="10:00 AM" style="width:80px;"></td><td><select style="width:55px;"><option>FN</option><option>AN</option></select></td><td><button class="btn btn-sm btn-outline-red" onclick="this.closest('tr').remove()">✕</button></td>`;
+  tb.appendChild(tr);
+}
+async function saveHallTicket(){
+  const sel=document.getElementById('ht-student');const student_id=sel.value,register_no=sel.options[sel.selectedIndex]?.dataset?.regno;
+  if(!student_id){showToast('Select a student!',true);return;}
+  const exam_month=document.getElementById('ht-month').value.trim(),exam_centre=document.getElementById('ht-centre').value.trim();
+  const rows=document.getElementById('ht-tbody').querySelectorAll('tr');const subjects=[];
+  rows.forEach(row=>{const i=row.querySelectorAll('input,select');subjects.push({subject_code:i[0].value.trim(),subject_name:i[1].value.trim(),exam_date:i[2].value.trim(),exam_time:i[3].value.trim(),session:i[4].value});});
+  const d=await fetch('/api/admin/hall-ticket',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_id,register_no,exam_month,exam_centre,subjects})}).then(r=>r.json());
+  if(d.success)showToast('✅ Hall ticket saved!');else showToast(d.message,true);
+}
+
+// EXAM APPLICATION
+let er=0;
+function addEARow(){
+  const tb=document.getElementById('ea-tbody');if(tb.querySelector('td[colspan]'))tb.innerHTML='';er++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${er}</td><td><input type="text" placeholder="IT3401"></td><td><input type="text" placeholder="Subject Name"></td><td><select style="width:80px;"><option>Theory</option><option>Practical</option></select></td><td><input type="number" placeholder="3" style="width:50px;"></td><td><button class="btn btn-sm btn-outline-red" onclick="this.closest('tr').remove()">✕</button></td>`;
+  tb.appendChild(tr);
+}
+async function saveExamApp(){
+  const sel=document.getElementById('ea-student');const student_id=sel.value,register_no=sel.options[sel.selectedIndex]?.dataset?.regno;
+  if(!student_id){showToast('Select a student!',true);return;}
+  const exam_month=document.getElementById('ea-month').value.trim();
+  const rows=document.getElementById('ea-tbody').querySelectorAll('tr');const subjects=[];
+  rows.forEach(row=>{const i=row.querySelectorAll('input,select');subjects.push({subject_code:i[0].value.trim(),subject_name:i[1].value.trim(),subject_type:i[2].value,credits:Number(i[3].value)||3,status:'Applied'});});
+  const d=await fetch('/api/admin/exam-application',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_id,register_no,exam_month,subjects})}).then(r=>r.json());
+  if(d.success)showToast('✅ Exam application saved!');else showToast(d.message,true);
+}
+
+// SEA
+let sr=0;
+function addSEARow(){
+  const tb=document.getElementById('sea-tbody');if(tb.querySelector('td[colspan]'))tb.innerHTML='';sr++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${sr}</td><td><input type="text" placeholder="IT3401"></td><td><input type="text" placeholder="Subject Name"></td><td><input type="number" placeholder="40" style="width:55px;" oninput="calcTotal(this)"></td><td><input type="number" placeholder="60" style="width:55px;" oninput="calcTotal(this)"></td><td><input type="number" placeholder="100" style="width:55px;" readonly></td><td><select style="width:60px;"><option>Pass</option><option>Fail</option></select></td><td><button class="btn btn-sm btn-outline-red" onclick="this.closest('tr').remove()">✕</button></td>`;
+  tb.appendChild(tr);
+}
+function calcTotal(el){const row=el.closest('tr');const i=row.querySelectorAll('input[type="number"]');i[2].value=(Number(i[0].value)||0)+(Number(i[1].value)||0);}
+async function saveSEA(){
+  const sel=document.getElementById('sea-student');const student_id=sel.value,register_no=sel.options[sel.selectedIndex]?.dataset?.regno;
+  if(!student_id){showToast('Select a student!',true);return;}
+  const semester=document.getElementById('sea-sem').value;
+  const rows=document.getElementById('sea-tbody').querySelectorAll('tr');const subjects=[];
+  rows.forEach(row=>{const i=row.querySelectorAll('input,select');subjects.push({subject_code:i[0].value.trim(),subject_name:i[1].value.trim(),internal:Number(i[2].value)||0,external:Number(i[3].value)||0,total:Number(i[4].value)||0,result:i[5].value});});
+  const d=await fetch('/api/admin/sea-performance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student_id,register_no,semester,subjects})}).then(r=>r.json());
+  if(d.success)showToast('✅ SEA Performance saved!');else showToast(d.message,true);
+}
+
+// NOTICES
+async function loadNotices(){
+  const d=await fetch('/api/admin/notices').then(r=>r.json());
+  const tb=document.getElementById('notice-tbody');
+  if(!d.success||!d.notices.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">No notices yet.</td></tr>';return;}
+  const cc={Important:'badge-red',Update:'badge-blue',Notice:'badge-blue',Deadline:'badge-red',Published:'badge-green'};
+  tb.innerHTML=d.notices.map((n,i)=>`<tr><td>${i+1}</td><td><strong>${n.title}</strong><br><span style="color:#666;font-size:11px;">${n.content.substring(0,80)}...</span></td><td><span class="badge ${cc[n.category]||'badge-blue'}">${n.category}</span></td><td>${new Date(n.created_at).toLocaleDateString('en-IN')}</td><td><button class="btn btn-sm btn-outline-red" onclick="deleteNotice('${n._id}')">🗑️ Delete</button></td></tr>`).join('');
+}
+async function postNotice(){
+  const title=document.getElementById('nc-title').value.trim(),content=document.getElementById('nc-content').value.trim(),category=document.getElementById('nc-cat').value;
+  if(!title||!content){showToast('Title and content required!',true);return;}
+  const d=await fetch('/api/admin/notices',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,content,category})}).then(r=>r.json());
+  if(d.success){showToast('📢 Notice posted!');document.getElementById('nc-title').value='';document.getElementById('nc-content').value='';await loadStats();await loadNotices();}else showToast(d.message,true);
+}
+async function deleteNotice(id){
+  if(!confirm('Delete this notice?'))return;
+  const d=await fetch(`/api/admin/notices/${id}`,{method:'DELETE'}).then(r=>r.json());
+  if(d.success){showToast('🗑️ Deleted.');await loadStats();await loadNotices();}
+}
+
+function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className=isErr?'error':'';t.style.display='block';setTimeout(()=>t.style.display='none',3500);}
+function doLogout(){if(confirm('Logout?'))fetch('/api/auth/logout').then(()=>window.location.href='/login');}
+
+// ── FACULTY MANAGEMENT ───────────────────────
+async function loadFaculty() {
+  const d = await fetch('/api/admin/faculty').then(r=>r.json());
+  const tbody = document.getElementById('fac-tbody');
+  if (!d.success || !d.faculty.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">No faculty added yet.</td></tr>';
+    document.getElementById('fac-count').textContent = '';
+    return;
+  }
+  document.getElementById('fac-count').textContent = `(${d.faculty.length} members)`;
+  tbody.innerHTML = d.faculty.map((f,i) => {
+    const depts = f.allowed_departments && f.allowed_departments.length ? f.allowed_departments.join(', ') : 'All';
+    const batches = f.allowed_batches && f.allowed_batches.length ? f.allowed_batches.join(', ') : 'All';
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>${f.faculty_id}</strong></td>
+      <td>${f.name}</td>
+      <td>${f.department}</td>
+      <td>${f.designation||'—'}</td>
+      <td style="font-size:11px;color:#555;">Depts: ${depts}<br>Batches: ${batches}</td>
+      <td>
+        <button class="btn btn-red" onclick="deleteFaculty('${f._id}','${f.name}')">🗑️ Delete</button>
+        <button class="btn btn-blue" style="margin-left:4px;" onclick="resetFacultyPwd('${f._id}','${f.name}')">🔑 Reset Pwd</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function addFaculty() {
+  const faculty_id    = document.getElementById('f-id').value.trim();
+  const name          = document.getElementById('f-name').value.trim();
+  const password      = document.getElementById('f-pass').value.trim();
+  const department    = document.getElementById('f-dept').value;
+  const designation   = document.getElementById('f-designation').value;
+  const email         = document.getElementById('f-email').value.trim();
+  const deptsEl       = document.getElementById('f-allowed-depts');
+  const batchesEl     = document.getElementById('f-allowed-batches');
+  const allowed_departments = Array.from(deptsEl.selectedOptions).map(o=>o.value);
+  const allowed_batches     = Array.from(batchesEl.selectedOptions).map(o=>o.value);
+
+  if (!faculty_id||!name||!password) { showToast('Faculty ID, name and password are required.', true); return; }
+
+  const d = await fetch('/api/admin/faculty', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ faculty_id, name, password, department, designation, email, allowed_departments, allowed_batches })
+  }).then(r=>r.json());
+
+  if (d.success) {
+    showToast('✅ Faculty added!');
+    ['f-id','f-name','f-pass','f-email'].forEach(id => document.getElementById(id).value='');
+    await loadFaculty();
+  } else showToast(d.message, true);
+}
+
+async function deleteFaculty(id, name) {
+  if (!confirm(`Delete faculty "${name}"?`)) return;
+  const d = await fetch(`/api/admin/faculty/${id}`, { method:'DELETE' }).then(r=>r.json());
+  if (d.success) { showToast('🗑️ Faculty deleted.'); await loadFaculty(); }
+  else showToast(d.message, true);
+}
+
+async function resetFacultyPwd(id, name) {
+  const pwd = prompt(`New password for ${name}:`);
+  if (!pwd) return;
+  const d = await fetch(`/api/admin/faculty/${id}/reset-password`, {
+    method:'PUT', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ new_password: pwd })
+  }).then(r=>r.json());
+  d.success ? showToast('✅ Password reset!') : showToast(d.message, true);
+}
+
+
+async function bulkUpload() {
+  const fileInput = document.getElementById('bulk-file');
+  const resultDiv = document.getElementById('bulk-result');
+  const progressDiv = document.getElementById('bulk-progress');
+  if (!fileInput.files.length) { showToast('Please select an Excel (.xlsx) file first.', true); return; }
+  const file = fileInput.files[0];
+  progressDiv.style.display = 'block';
+  resultDiv.style.display = 'none';
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      if (!rows.length) {
+        progressDiv.style.display = 'none';
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = '#f8d7da'; resultDiv.style.color = '#721c24';
+        resultDiv.innerHTML = '❌ No data rows found. Make sure your file has a header row.';
+        return;
+      }
+      // Normalise keys: trim whitespace from header names
+      const normalised = rows.map(r => {
+        const obj = {};
+        Object.keys(r).forEach(k => { obj[k.trim().toLowerCase()] = r[k]; });
+        return obj;
+      });
+      const d = await fetch('/api/admin/students/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ students: normalised })
+      }).then(r => r.json());
+      progressDiv.style.display = 'none';
+      resultDiv.style.display = 'block';
+      if (d.success) {
+        resultDiv.style.background = '#d4edda'; resultDiv.style.color = '#155724';
+        resultDiv.innerHTML = `✅ <strong>${d.message}</strong>` +
+          (d.errors && d.errors.length ? `<br><small style="color:#856404;">⚠️ Skipped: ${d.errors.join(' | ')}</small>` : '');
+        fileInput.value = '';
+        await loadStats(); await loadStudents();
+      } else {
+        resultDiv.style.background = '#f8d7da'; resultDiv.style.color = '#721c24';
+        resultDiv.innerHTML = '❌ ' + d.message;
+      }
+    } catch(err) {
+      progressDiv.style.display = 'none';
+      resultDiv.style.display = 'block';
+      resultDiv.style.background = '#f8d7da'; resultDiv.style.color = '#721c24';
+      resultDiv.innerHTML = '❌ Error reading file: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function downloadTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['register_no','name','password','department','batch','semester'],
+    ['311124201001','Example Student One','pass123','IT','2024-2028',3],
+    ['311124201002','Example Student Two','pass456','CSE','2024-2028',3],
+  ]);
+  ws['!cols'] = [{wch:18},{wch:25},{wch:12},{wch:10},{wch:12},{wch:10}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Students');
+  XLSX.writeFile(wb, 'licet_bulk_students_template.xlsx');
+}
+</script>
+</body>
+</html>

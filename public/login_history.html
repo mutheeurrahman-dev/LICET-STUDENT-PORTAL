@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LICET - Login History</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Verdana,sans-serif;font-size:12px;background:#eaf4fb;min-height:100vh;display:flex;flex-direction:column;}
+    .header{background:#143D55;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .header-left{display:flex;align-items:center;gap:12px;}
+    .header img.logo{height:50px;border-radius:50%;}
+    .header-text h1{color:white;font-size:14px;font-weight:bold;}
+    .header-text p{color:#a8d8f0;font-size:10px;}
+    .header-right{text-align:right;}
+    .student-name{font-size:13px;font-weight:bold;color:white;}
+    .student-info{font-size:10px;color:#a8d8f0;margin-top:2px;}
+    .btn-logout{margin-top:6px;background:#dc3545;color:white;border:none;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;}
+    #dolphinnav{background:#1E73BE;height:33px;display:flex;align-items:center;}
+    #dolphinnav a{color:white;text-decoration:none;padding:0 12px;height:33px;line-height:33px;font-size:11px;text-transform:uppercase;display:inline-block;}
+    #dolphinnav a:hover{background:#fcfcfc;color:#1E73BE;font-weight:bold;}
+    .page-wrapper{max-width:1000px;margin:20px auto;padding:0 16px;flex:1;width:100%;}
+    .page-title{background:white;border-left:5px solid #1E73BE;padding:10px 16px;margin-bottom:16px;font-size:16px;font-weight:bold;color:#143D55;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    a.back-btn{display:inline-block;background:#EBF3FC;color:#030a66;border:1px solid #A8BCD7;padding:6px 16px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:bold;margin-bottom:16px;}
+    a.back-btn:hover{background:#1E73BE;color:white;}
+    .panel{background:white;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);margin-bottom:20px;overflow:hidden;}
+    .panel-header{background:#F6F7F8;border-bottom:1px solid #D8D8D8;padding:10px 16px;font-weight:bold;color:#143D55;font-size:13px;}
+    .panel-body{padding:24px 16px;}
+    .grid-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .grid-table th{background:#1E73BE;color:white;padding:8px 12px;text-align:left;font-weight:normal;}
+    .grid-table td{border-bottom:1px solid #D8D8D8;padding:8px 12px;color:#333;}
+    .grid-table tr:hover td{background:#f0f7ff;}
+    .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:bold;font-size:11px;}
+    .badge-green{background:#d4edda;color:#155724;}
+    .footer{background:#f6f7f8;border-top:1px solid #D8D8D8;text-align:center;padding:10px;font-size:11px;color:#888;margin-top:auto;}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <img class="logo" src="./college.jpg" alt="LICET">
+    <div class="header-text">
+      <h1>Loyola-ICAM College of Engineering and Technology</h1>
+      <p>Student Portal — LICET Chennai</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="student-name" id="sname">Loading...</div>
+    <div class="student-info" id="sinfo"></div>
+    <button class="btn-logout" onclick="doLogout()">🔴 Logout</button>
+  </div>
+</div>
+<div id="dolphinnav">
+  <a href="/home">🏠 Home</a>
+  <a href="/cgpa-calculator">📊 CGPA Calculator</a>
+  <a href="/profile">👤 Profile</a>
+  <a href="#" onclick="doLogout()">🔴 Logout</a>
+</div>
+<div class="page-wrapper">
+  <a class="back-btn" href="/home">← Back to Home</a>
+  <div class="page-title">🕐 Login History</div>
+  <div class="panel">
+    <div class="panel-header">Recent Login Activity</div>
+    <div class="panel-body">
+      <table class="grid-table">
+        <thead><tr><th>#</th><th>Date &amp; Time</th><th>Status</th></tr></thead>
+        <tbody id="login-tbody">
+          <tr><td colspan="3" style="text-align:center;color:#999;padding:30px;">Loading...</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;font-size:11px;color:#888;">ℹ️ The most recent login date is retrieved from the database. Full login history tracking requires server-side session logging.</p>
+    </div>
+  </div>
+</div>
+<div class="footer">Copyright &copy; 2026 LICET Student Portal. All rights reserved.</div>
+<script>
+  window.onload = async () => {
+    try {
+      const r = await fetch('/api/auth/me');
+      const d = await r.json();
+      if (!d.success) { window.location.href = '/login'; return; }
+      document.getElementById('sname').textContent = d.student.name;
+      document.getElementById('sinfo').textContent = d.student.department + ' | ' + d.student.batch + ' | Sem ' + d.student.semester;
+
+      const pr = await fetch('/api/student/profile');
+      const pd = await pr.json();
+      const tbody = document.getElementById('login-tbody');
+      if (pd.success && pd.student && pd.student.last_login) {
+        const dt = new Date(pd.student.last_login);
+        const fmt = dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) + ' ' + dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+        tbody.innerHTML = `<tr><td>1</td><td>${fmt}</td><td><span class="badge badge-green">✅ Success</span></td></tr>`;
+      } else {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#999;padding:20px;">No login history available yet.</td></tr>`;
+      }
+    } catch(e) {
+      window.location.href = '/login';
+    }
+  };
+  function doLogout() {
+    if (confirm('Logout?')) { fetch('/api/auth/logout').then(() => window.location.href = '/login'); }
+  }
+</script>
+</body>
+</html>
